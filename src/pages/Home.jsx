@@ -7,6 +7,7 @@ import { callApi } from "../utils/Utils";
 import Slideshow from "../components/Home/Slideshow";
 import TopSlideshow from "../components/Home/TopSlideshow";
 import ArcadeSlideshow from "../components/Home/ArcadeSlideshow";
+import TopGames from "../components/Home/TopGames";
 import GameLogos from "../components/Home/GameLogos";
 import GameSlideshow from "../components/Home/GameSlideshow";
 import Welcome from "../components/Home/Welcome";
@@ -241,6 +242,20 @@ const Home = () => {
             <TopSlideshow games={topCasino} name="casino" title="Casino" />
           </div>
           <ArcadeSlideshow games={topArcade} name="arcade" title="Top Juegos de crash" />
+          <TopGames games={topGames} text={isLogin ? "Jugar" : "Ingresar"} title="Populares" onGameClick={(game) => {
+            if (isLogin) {
+              launchGame(game, "slot", "tab");
+            } else {
+              setShowLoginModal(true);
+            }
+          }}/>
+          <TopGames games={topLiveCasino} text={isLogin ? "Jugar" : "Ingresar"} title="LiveCasino" onGameClick={(game) => {
+            if (isLogin) {
+              launchGame(game, "slot", "tab");
+            } else {
+              setShowLoginModal(true);
+            }
+          }}/>
           <GameLogos /> 
           { topLiveCasino.length > 0 && <GameSlideshow games={topLiveCasino} title="Juegos en vivo principales" onGameClick={(game) => {
             if (isLogin) {
