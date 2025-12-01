@@ -6,6 +6,7 @@ import { NavigationContext } from "../components/Layout/NavigationContext";
 import { callApi } from "../utils/Utils";
 import Slideshow from "../components/Home/Slideshow";
 import TopSlideshow from "../components/Home/TopSlideshow";
+import ArcadeSlideshow from "../components/Home/ArcadeSlideshow";
 import GameLogos from "../components/Home/GameLogos";
 import GameSlideshow from "../components/Home/GameSlideshow";
 import Welcome from "../components/Home/Welcome";
@@ -34,6 +35,7 @@ const Home = () => {
   const [selectedCategoryIndex, setSelectedCategoryIndex] = useState(0);
   const [games, setGames] = useState([]);
   const [topGames, setTopGames] = useState([]);
+  const [topArcade, setTopArcade] = useState([]);
   const [topCasino, setTopCasino] = useState([]);
   const [topLiveCasino, setTopLiveCasino] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -70,6 +72,7 @@ const Home = () => {
       
     } else {
       setTopGames(result.top_hot);
+      setTopArcade(result.top_arcade);
       setTopCasino(result.top_slot);
       setTopLiveCasino(result.top_livecasino);
       contextData.slots_only = result && result.slots_only;
@@ -237,6 +240,7 @@ const Home = () => {
             <TopSlideshow games={categories} name="provider" title="Proveedores" />
             <TopSlideshow games={topCasino} name="casino" title="Casino" />
           </div>
+          <ArcadeSlideshow games={topArcade} name="arcade" title="Top Juegos de crash" />
           <GameLogos /> 
           { topLiveCasino.length > 0 && <GameSlideshow games={topLiveCasino} title="Juegos en vivo principales" onGameClick={(game) => {
             if (isLogin) {
