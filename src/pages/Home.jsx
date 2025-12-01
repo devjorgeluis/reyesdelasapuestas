@@ -8,19 +8,10 @@ import Slideshow from "../components/Home/Slideshow";
 import TopSlideshow from "../components/Home/TopSlideshow";
 import ArcadeSlideshow from "../components/Home/ArcadeSlideshow";
 import TopGames from "../components/Home/TopGames";
-import GameLogos from "../components/Home/GameLogos";
-import GameSlideshow from "../components/Home/GameSlideshow";
-import Welcome from "../components/Home/Welcome";
-import GameProviders from "../components/Home/GameProviders";
-import Discover from "../components/Home/Discover";
-import Promotions from "../components/Home/Promotions";
-import About from "../components/Home/About";
 import GameModal from "../components/Modal/GameModal";
 import LoginModal from "../components/Modal/LoginModal";
 import "animate.css";
 
-import IconLive from "/src/assets/svg/live.svg";
-import IconHot from "/src/assets/svg/hot.svg";
 
 let selectedGameId = null;
 let selectedGameType = null;
@@ -256,30 +247,6 @@ const Home = () => {
               setShowLoginModal(true);
             }
           }}/>
-          <GameLogos /> 
-          { topLiveCasino.length > 0 && <GameSlideshow games={topLiveCasino} title="Juegos en vivo principales" onGameClick={(game) => {
-            if (isLogin) {
-              launchGame(game, "slot", "tab");
-            } else {
-              setShowLoginModal(true);
-            }
-          }} /> }
-          { topGames.length > 0 && <GameSlideshow games={topGames} name="casino" title="Juegos más populares" icon={IconHot} link="/casino" onGameClick={(game) => {
-            if (isLogin) {
-              launchGame(game, "slot", "tab");
-            } else {
-              setShowLoginModal(true);
-            }
-          }} /> }
-          {
-            !isLogin && <>
-              <Welcome />
-              { mainCategories.length > 0 && <GameProviders categories={mainCategories} /> }
-              <Discover />
-            </>
-          }
-          <Promotions />
-          <About />
         </>
       )}
 

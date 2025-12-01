@@ -8,7 +8,7 @@ import GameCard from "/src/components/GameCard";
 import Slideshow from "../components/LiveCasino/Slideshow";
 import CategoryContainer from "../components/CategoryContainer";
 import GameModal from "../components/Modal/GameModal";
-import About from "../components/Home/About";
+// import About from "../components/Home/About";
 import Footer from "../components/Layout/Footer";
 import LoadGames from "../components/Loading/LoadGames";
 import SearchInput from "../components/SearchInput";
@@ -750,7 +750,7 @@ const LiveCasino = () => {
                     </div>
                   </div>
                 </div>
-                <About />
+                {/* <About /> */}
               </div>
             </div>
             <Footer isSlotsOnly={isSlotsOnly} />
