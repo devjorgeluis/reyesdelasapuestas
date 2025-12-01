@@ -67,21 +67,21 @@ const Slideshow = () => {
 
       {/* Navigation Arrows */}
       <div className="navigate-wrapper navigate-bottom">
-        <button type="button" className="swiper-button-prev">
+        <div type="button" className="swiper-button-prev">
           <svg className="icon icon-arrowLeft" viewBox="0 0 24 24" width="24" height="24">
             <title>Previous</title>
             <path d="M0 0h24v24H0z" fill="none" />
             <path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z" />
           </svg>
-        </button>
+        </div>
 
-        <button type="button" className="swiper-button-next">
+        <div type="button" className="swiper-button-next">
           <svg className="icon icon-arrowRight" viewBox="0 0 24 24" width="24" height="24">
             <title>Next</title>
             <path d="M0 0h24v24H0z" fill="none" />
             <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z" />
           </svg>
-        </button>
+        </div>
       </div>
     </div>
   );
