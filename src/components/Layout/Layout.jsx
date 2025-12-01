@@ -6,6 +6,7 @@ import { LayoutContext } from "./LayoutContext";
 import { callApi } from "../../utils/Utils";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
+import Footer from "./Footer";
 import LoginModal from "../Modal/LoginModal";
 import { NavigationContext } from "./NavigationContext";
 import FullDivLoading from "../Loading/FullDivLoading";
@@ -152,8 +153,8 @@ const Layout = () => {
                 value={{ selectedPage, setSelectedPage, getPage, showFullDivLoading, setShowFullDivLoading }}
             >
                 <>
-                    <FullDivLoading show={showFullDivLoading} />
-                    {!isSportsPage && <ChatButton />}
+                    {/* <FullDivLoading show={showFullDivLoading} />
+                    {!isSportsPage && <ChatButton />} */}
                     {showLoginModal && (
                         <LoginModal
                             isMobile={isMobile}
@@ -162,7 +163,7 @@ const Layout = () => {
                             onLoginSuccess={handleLoginSuccess}
                         />
                     )}
-                    <div className={`menu-layout ${isSmallScreen ? 'absolute' : 'fixed'}`}>
+                    <div className="page">
                         <Header
                             isLogin={isLogin}
                             isMobile={isMobile}
@@ -170,11 +171,13 @@ const Layout = () => {
                             handleLoginClick={handleLoginClick}
                             handleLogoutClick={handleLogoutClick}
                         />
-                        <Sidebar isSlotsOnly={isSlotsOnly} isMobile={isMobile} />
-                        <main className={`menu-layout-content ${isSidebarExpanded ? 'expanded' : 'collapsed'} ${isSportsPage ? 'sports' : ''}`}>
+                        {/* <Sidebar isSlotsOnly={isSlotsOnly} isMobile={isMobile} /> */}
+                        <main className="content">
                             <Outlet context={{ isSlotsOnly, isMobile }} />
                         </main>
-                        {showMobileSearch && isMobile && (
+                        <Footer isSlotsOnly={isSlotsOnly} />
+                        {showMobileSearch 
+                        && isMobile && (
                             <MobileSearch
                                 isLogin={isLogin}
                                 isMobile={isMobile}

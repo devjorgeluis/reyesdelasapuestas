@@ -12,7 +12,6 @@ import GameProviders from "../components/Home/GameProviders";
 import Discover from "../components/Home/Discover";
 import Promotions from "../components/Home/Promotions";
 import About from "../components/Home/About";
-import Footer from "../components/Layout/Footer";
 import GameModal from "../components/Modal/GameModal";
 import LoginModal from "../components/Modal/LoginModal";
 import "animate.css";
@@ -230,44 +229,31 @@ const Home = () => {
         />
       ) : (
         <>
-          <div className="landingPage">
-            <div className="root-container" id="pageContainer">
-              <div className="root-wrapper">
-                <div className="page">
-                  {
-                    !isLogin && <>
-                      <Slideshow />
-                      <GameLogos /> 
-                    </>
-                  }
-                  { topLiveCasino.length > 0 && <GameSlideshow games={topLiveCasino} name="liveCasino" title="Juegos en vivo principales" icon={IconLive} link="/live-casino" onGameClick={(game) => {
-                    if (isLogin) {
-                      launchGame(game, "slot", "tab");
-                    } else {
-                      setShowLoginModal(true);
-                    }
-                  }} /> }
-                  { topGames.length > 0 && <GameSlideshow games={topGames} name="casino" title="Juegos más populares" icon={IconHot} link="/casino" onGameClick={(game) => {
-                    if (isLogin) {
-                      launchGame(game, "slot", "tab");
-                    } else {
-                      setShowLoginModal(true);
-                    }
-                  }} /> }
-                  {
-                    !isLogin && <>
-                      <Welcome />
-                      { mainCategories.length > 0 && <GameProviders categories={mainCategories} /> }
-                      <Discover />
-                    </>
-                  }
-                  <Promotions />
-                  <About />
-                </div>
-              </div>
-              <Footer isSlotsOnly={isSlotsOnly} />
-            </div>
-          </div>
+          <Slideshow />
+          <GameLogos /> 
+          { topLiveCasino.length > 0 && <GameSlideshow games={topLiveCasino} name="liveCasino" title="Juegos en vivo principales" icon={IconLive} link="/live-casino" onGameClick={(game) => {
+            if (isLogin) {
+              launchGame(game, "slot", "tab");
+            } else {
+              setShowLoginModal(true);
+            }
+          }} /> }
+          { topGames.length > 0 && <GameSlideshow games={topGames} name="casino" title="Juegos más populares" icon={IconHot} link="/casino" onGameClick={(game) => {
+            if (isLogin) {
+              launchGame(game, "slot", "tab");
+            } else {
+              setShowLoginModal(true);
+            }
+          }} /> }
+          {
+            !isLogin && <>
+              <Welcome />
+              { mainCategories.length > 0 && <GameProviders categories={mainCategories} /> }
+              <Discover />
+            </>
+          }
+          <Promotions />
+          <About />
         </>
       )}
 
