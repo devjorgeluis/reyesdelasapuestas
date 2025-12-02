@@ -197,6 +197,24 @@ input[type=button]::-moz-focus-inner {
     border: 0;
 }
 
+.mt-5 {
+    margin-top: 2rem;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.load-more {
+    text-decoration: none;
+    font-weight: 700;
+    padding: 10px 15px;
+    background: var(--primary_btn_bg) !important;
+    color: var(--primary_btn_color) !important;
+    border-radius: 5px;
+    display: inline-block;
+    cursor: pointer;
+}
 
 .offline {
     position: fixed;
@@ -1443,7 +1461,7 @@ side .middle_seporator {
     display: block;
     width: 25px;
     height: 25px;
-    background-image: url(../img/modal_close.svg);
+    background-image: url("../assets/svg/modal_close.svg");
     background-size: 50%;
     background-repeat: no-repeat;
     background-position: center center;
@@ -2846,6 +2864,7 @@ side .side_menu_btns {
 
 .casino-games-container__head .casino-games-container__more {
     font-size: 16px;
+    cursor: pointer;
 }
 
 .casino-games-container__list {
@@ -2904,7 +2923,7 @@ side .side_menu_btns {
     width: 100%;
     padding-left: 5px;
     padding-right: 5px;
-    margin-top: 10px;
+    margin-top: 6px;
     text-overflow: ellipsis;
     overflow: hidden;
     cursor: default !important;
@@ -3146,14 +3165,14 @@ side .side_menu_btns {
     cursor: pointer !important;
 }
 
-.home-block .home-block__loader {
+.home-block__loader {
     display: flex;
     align-items: center;
     justify-content: center;
     width: 100%;
 }
 
-.home-block .home-block__loader img {
+.home-block__loader img {
     width: 100px;
 }
 
@@ -3804,10 +3823,10 @@ side .side_menu_btns {
 
 .home_leagues .league .league__icon {
     display: block;
-    background-size: 45px;
+    background-size: 60px;
     background-repeat: no-repeat;
     background-position: center;
-    height: 45px;
+    height: 60px;
     transition: transform .1s ease-in-out;
 }
 

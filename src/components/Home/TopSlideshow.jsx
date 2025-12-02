@@ -1,12 +1,11 @@
 import { useContext, useRef, useState, useEffect } from 'react';
 import { AppContext } from '../../AppContext';
+import LoadApi from '../Loading/LoadApi';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
-
-import IconLoading from "/src/assets/img/miniloader.png";
 
 const TopSlideshow = ({ games, name, title, onGameClick }) => {
     const { contextData } = useContext(AppContext);
@@ -47,9 +46,7 @@ const TopSlideshow = ({ games, name, title, onGameClick }) => {
             <div className="home-block__content">
                 {
                     games.length === 0 ? (
-                        <div className="home-block__loader">
-                            <img src={IconLoading} />
-                        </div>
+                        <LoadApi />
                     ) :
                     <div className="home-block__slider">
                         <div

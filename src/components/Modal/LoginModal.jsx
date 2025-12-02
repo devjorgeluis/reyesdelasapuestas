@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState } from "react";
 import { AppContext } from "../../AppContext";
 import { callApi } from "../../utils/Utils";
 
@@ -55,7 +55,7 @@ const LoginModal = ({ isMobile, isOpen, onClose, onConfirm, onLoginSuccess }) =>
             <div id="auth" className="modal" style={{ opacity: 1, display: "inline-block" }}>
                 <div className="modal_head">
                     <div>Ingresar</div>
-                    <a href="#" rel="modal:close"></a>
+                    <a href="#" rel="modal:close" onClick={() => onClose()}></a>
                 </div>
                 <div className="modal_content">
                     <form method="post" id="auth_form" onSubmit={handleSubmit}>

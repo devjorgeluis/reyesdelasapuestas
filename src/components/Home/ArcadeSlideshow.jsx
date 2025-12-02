@@ -6,7 +6,7 @@ import { Navigation } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 
-import IconLoading from "/src/assets/img/miniloader.png";
+import LoadApi from '../Loading/LoadApi';
 
 const ArcadeSlideshow = ({ games, name, title, onGameClick }) => {
     const { contextData } = useContext(AppContext);
@@ -47,9 +47,7 @@ const ArcadeSlideshow = ({ games, name, title, onGameClick }) => {
             <div className="home-block__content">
                 {
                     games.length === 0 ? (
-                        <div className="home-block__loader">
-                            <img src={IconLoading} />
-                        </div>
+                        <LoadApi />
                     ) :
                         <div className="swiper home_block_swiper swiper-initialized swiper-horizontal swiper-pointer-events swiper-backface-hidden">
                             <div
