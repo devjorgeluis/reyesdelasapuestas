@@ -1,64 +1,55 @@
-import { useContext, useRef } from "react";
+import { useContext } from "react";
 import { AppContext } from "../AppContext";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 const ProviderContainer = ({
     categories,
     selectedProvider,
-    setSelectedProvider,
     onProviderSelect
 }) => {
     const { contextData } = useContext(AppContext);
-    const navigate = useNavigate();
     const location = useLocation();
-    const isLiveCasino = location.pathname === "/live-casino";
-    const dropdownRef = useRef(null);
-
-    const handleProviderSelect = (provider, index = 0) => {
-        setSelectedProvider(provider);
-        onProviderSelect(provider, index);
-        if (isLiveCasino) {
-            navigate("#" + provider.code);
-        }
+    
+    const providers = categories.filter(cat => cat.code !== "home" && cat.code);
+    
+    const handleClick = (e, provider) => {
+        e.preventDefault();
+        onProviderSelect(provider);
     };
-
-    const isProviderSelected = (provider) => {
-        if (!selectedProvider) return false;
-        return selectedProvider.code === provider.code || selectedProvider.id === provider.id;
+    
+    const isSelected = (provider) => {
+        const hashCode = location.hash.substring(1);
+        return (selectedProvider && selectedProvider.id === provider.id) || 
+               (hashCode === provider.code);
     };
-
+        
     return (
-        <div className="casino-menu-block__content" ref={dropdownRef}>
-            {categories.map((provider, index) => {
-                const isSelected = isProviderSelected(provider);
-
+        <div className="casino-menu-block__content">
+            {providers.map((provider) => {
+                const selected = isSelected(provider);
                 return (
                     <a
-                        key={index}
+                        key={provider.id}
                         href="#"
-                        className={isSelected ? "router-link-exact-active router-link-active" : ""}
-                        onClick={(e) => {
-                            e.preventDefault();
-                            handleProviderSelect(provider, index);
-                        }}
+                        className={`provider-link ${selected ? "router-link-exact-active router-link-active active" : ""}`}
+                        onClick={(e) => handleClick(e, provider)}
                     >
-                        <div>
+                        <div className="provider-content">
                             {provider.image_local || provider.image_url ? (
                                 <>
                                     <div
                                         className="provider-image"
                                         style={{
-                                            backgroundImage: `url(${
-                                                provider.image_local
-                                                    ? contextData.cdnUrl + provider.image_local
-                                                    : provider.image_url
+                                            backgroundImage: `url(${provider.image_local
+                                                ? contextData.cdnUrl + provider.image_local
+                                                : provider.image_url
                                             })`
                                         }}
-                                    ></div>
+                                    />
                                     <div className="provider-name">{provider.name}</div>
                                 </>
                             ) : (
-                                <i className="custom-icon-bp-home"></i>
+                                <div className="provider-name">{provider.name}</div>
                             )}
                         </div>
                     </a>

@@ -157,7 +157,7 @@ const Casino = () => {
   };
 
   const fetchContentForCategory = (category, categoryId, tableName, categoryIndex, resetCurrentPage, pageGroupCode = null) => {
-    const pageSize = 24;
+    const pageSize = 30;
     const groupCode = pageGroupCode || pageData.page_group_code;
     const apiUrl =
       "/get-content?page_group_type=categories&page_group_code=" +
@@ -225,7 +225,7 @@ const Casino = () => {
   };
 
   const fetchContent = (category, categoryId, tableName, categoryIndex, resetCurrentPage, pageGroupCode) => {
-    let pageSize = 24;
+    let pageSize = 30;
     setIsLoadingGames(true);
 
     if (resetCurrentPage) {
@@ -262,15 +262,13 @@ const Casino = () => {
       setHasMoreGames(false);
     } else {
       configureImageSrc(result);
-
       const newGames = result.content || [];
 
       setGames((prevGames) => {
-        // If pageCurrent === 0 → replace, else append
         return pageCurrent === 0 ? newGames : [...prevGames, ...newGames];
       });
 
-      setHasMoreGames(newGames.length === 24);
+      setHasMoreGames(newGames.length === 30);
       
       if (newGames.length > 0) {
         pageCurrent += 1;
@@ -398,7 +396,7 @@ const Casino = () => {
     setGames([]);
     setIsLoadingGames(true);
 
-    let pageSize = 24;
+    let pageSize = 30;
 
     let searchDelayTimerTmp = setTimeout(function () {
       callApi(
@@ -549,7 +547,7 @@ const Casino = () => {
                               <a className="casino-games-container__more" onClick={() => loadMoreContent(entry.category, catIndex)}>Todos</a>
                             </div>
                             <div className="casino-games-container__list">
-                              {entry.games.slice(0, 24).map((game) => (
+                              {entry.games.slice(0, 30).map((game) => (
                                 <GameCard
                                   key={game.id}
                                   id={game.id}
