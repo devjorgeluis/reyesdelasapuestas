@@ -9,7 +9,7 @@ const GameCard = (props) => {
       <div className="casino-game__content">
         <img src={props.imageSrc} loading="lazy" />
         <div className="casino-game__buttons">
-          <a href="/casino/play/money/4843" className="play_money for_auth">{props.text}</a>
+          <a className="play_money for_auth">{props.text}</a>
         </div>
       </div>
       <div className="casino-game__provider">
