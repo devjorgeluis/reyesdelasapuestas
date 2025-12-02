@@ -30,11 +30,9 @@ const LiveSports = () => {
     };
 
     return (
-        <>
+        <div className="sports">
             {isLoading ? (
-                <div className="loading-page">
-                    <LoadApi />
-                </div>
+                <LoadApi />
             ) : sportsEmbedUrl ? (
                 <div className="game-iframe-view_gameIframeWrapper game-iframe-view_sportbook">
                     <iframe
@@ -61,7 +59,7 @@ const LiveSports = () => {
                     </div>
                 </div>
             )}
-        </>
+        </div>
     );
 };
 
