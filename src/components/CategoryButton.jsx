@@ -1,15 +1,16 @@
 const CategoryButton = (props) => {
-  let customClass = "nav-link";
+  let customClass = "";
   if (props.active == true) {
-    customClass += " active";
+    customClass += " router-link-exact-active router-link-active";
   }
 
   return (
-    <li className="nav-item" onClick={props.onClick}>
-      <a className={customClass} href={"#" + props.code}>
-        <h1 className="title seo-title">{props.name}</h1>
-      </a>
-    </li>
+    <a className={customClass} href={"#" + props.code}>
+      <div onClick={props.onClick}>
+        <div style={{ backgroundImage: `url(${props.image})` }}></div>
+        <div>{props.name}</div>
+      </div>
+    </a>
   );
 };
 

@@ -2734,7 +2734,7 @@ side .side_menu_btns {
     width: 17px;
     height: 17px;
     z-index: 1;
-    background-image: url(../img/search.svg);
+    background-image: url(../assets/svg/search.svg);
     background-size: 17px;
     background-repeat: no-repeat;
     opacity: 0.5;

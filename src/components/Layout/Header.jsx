@@ -70,7 +70,7 @@ const Header = ({
                     isLogin ? (
                         <>
                             <div className="header__balance">
-                                <div className="menu_balance" onclick="open_balance()">
+                                <div className="menu_balance">
                                     <div className="upd_symbol">$</div>
                                     <div className="upd_balance">{userBalance}</div>
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" width="48" height="48" strokeWidth="2">

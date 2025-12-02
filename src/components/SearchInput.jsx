@@ -1,30 +1,21 @@
 import { useContext } from "react";
 import { LayoutContext } from "./Layout/LayoutContext";
 
+import IconFavorite from "/src/assets/svg/favorites.svg";
+
 const SearchInput = ({
     txtSearch,
     setTxtSearch,
     searchRef,
     search,
-    clearSearch,
     isMobile
 }) => {
     const { setShowMobileSearch } = useContext(LayoutContext);
 
-    const handleClearClick = () => {
-        if (txtSearch !== "") {
-            clearSearch();
-            setTxtSearch("");
-            if (isMobile) {
-                setShowMobileSearch(false);
-            }
-        }
-    };
-
     const handleChange = (event) => {
         const value = event.target.value;
         setTxtSearch(value);
-        search({ target: { value }, key: event.key, keyCode: event.keyCode }); // Trigger search with updated value
+        search({ target: { value }, key: event.key, keyCode: event.keyCode });
     };
 
     const handleFocus = () => {
@@ -34,26 +25,18 @@ const SearchInput = ({
     };
 
     return (
-        <div className="search-container">
-            <div className="input-group">
-                <input
-                    ref={searchRef}
-                    className={`form-control ${isMobile ? 'mobile-form-control' : 'desktop-form-control'}`}
-                    placeholder="Buscar"
-                    value={txtSearch}
-                    onChange={handleChange}
-                    onKeyUp={search}
-                    onFocus={handleFocus}
-                />
-                <span className="input-group-append">
-                    <button
-                        type="button"
-                        onClick={handleClearClick}
-                    >
-                        <i className="material-icons">{txtSearch === "" ? "search" : "delete"}</i>
-                    </button>
-                </span>
-            </div>
+        <div className="casino-menu__search">
+            <input
+                ref={searchRef}
+                placeholder="Buscar en..."
+                value={txtSearch}
+                onChange={handleChange}
+                onKeyUp={search}
+                onFocus={handleFocus}
+            />
+            <a href="#" className="favorites">
+                <div><img src={IconFavorite} alt="" /></div>
+            </a>
         </div>
     );
 };
