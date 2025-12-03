@@ -5,11 +5,9 @@ import { AppContext } from "../../AppContext";
 import { LayoutContext } from "./LayoutContext";
 import { callApi } from "../../utils/Utils";
 import Header from "./Header";
-import Sidebar from "./Sidebar";
 import Footer from "./Footer";
 import LoginModal from "../Modal/LoginModal";
 import { NavigationContext } from "./NavigationContext";
-import FullDivLoading from "../Loading/FullDivLoading";
 import ChatButton from "../ChatButton";
 import MobileSearch from "../MobileSearch";
 

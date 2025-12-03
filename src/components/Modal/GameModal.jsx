@@ -1,305 +1,174 @@
-import { useContext, useState, useEffect, useRef } from "react";
-import { AppContext } from "../../AppContext";
-import { callApi } from "../../utils/Utils";
-import LoadCasino from "../Loading/LoadCasino";
-import LoadApi from "../Loading/LoadApi";
-import IconEnlarge from "/src/assets/svg/enlarge.svg";
-import IconClose from "/src/assets/svg/large-close.svg";
+import { useState, useEffect, useRef } from "react";
+import { useOutletContext } from "react-router-dom";
+import CategoryContainer from "../CategoryContainer";
+import ProviderContainer from "../ProviderContainer";
+import SearchInput from "../SearchInput";
 
 const GameModal = (props) => {
-  const { contextData } = useContext(AppContext);
   const [url, setUrl] = useState(null);
-  const [iframeLoaded, setIframeLoaded] = useState(false);
-  const [isFullscreen, setIsFullscreen] = useState(false);
-  const [isGameLoadingError, setIsGameLoadingError] = useState(false);
-  const [games, setGames] = useState([]);
-  const [searchDelayTimer, setSearchDelayTimer] = useState();
-  const [txtSearch, setTxtSearch] = useState("");
-  const [isSearch, setIsSearch] = useState(false);
+  const [selectedCategoryIndex, setSelectedCategoryIndex] = useState(0);
   const searchRef = useRef(null);
+  const { isSlotsOnly } = useOutletContext();
 
   useEffect(() => {
     if (props.gameUrl !== null && props.gameUrl !== "") {
       if (props.isMobile) {
         window.location.href = props.gameUrl;
       } else {
-        document
-          .getElementsByClassName("game-view-container")[0]
-          .classList.remove("d-none");
         setUrl(props.gameUrl);
       }
     }
   }, [props.gameUrl, props.isMobile]);
 
-  const closeModal = () => {
-    resetModal();
-    document.getElementsByClassName("game-view-container")[0].classList.add("d-none");
-    if (props.onClose) {
-      props.onClose();
-    }
-  };
-
-  const resetModal = () => {
-    setUrl(null);
-    setIframeLoaded(false);
-    document.getElementById("game-window-iframe").classList.add("d-none");
-  };
-
-  const toggleFullScreen = () => {
-    const gameWindow = document.getElementsByClassName("game-window")[0];
-
-    if (!isFullscreen) {
-      // Enter fullscreen
-      if (gameWindow.requestFullscreen) {
-        gameWindow.requestFullscreen();
-      } else if (gameWindow.mozRequestFullScreen) {
-        gameWindow.mozRequestFullScreen();
-      } else if (gameWindow.webkitRequestFullscreen) {
-        gameWindow.webkitRequestFullscreen();
-      } else if (gameWindow.msRequestFullscreen) {
-        gameWindow.msRequestFullscreen();
-      }
-      setIsFullscreen(true);
-    } else {
-      // Exit fullscreen
-      if (document.exitFullscreen) {
-        document.exitFullscreen();
-      } else if (document.mozCancelFullScreen) {
-        document.mozCancelFullScreen();
-      } else if (document.webkitExitFullscreen) {
-        document.webkitExitFullscreen();
-      } else if (document.msExitFullscreen) {
-        document.msExitFullscreen();
-      }
-      setIsFullscreen(false);
-    }
-  };
-
-  const exitHandler = () => {
-    if (
-      !document.fullscreenElement &&
-      !document.webkitIsFullScreen &&
-      !document.mozFullScreen &&
-      !document.msFullscreenElement
-    ) {
-      setIsFullscreen(false);
-      document
-        .getElementsByClassName("game-view-container")[0]
-        .classList.remove("fullscreen");
-    }
-  };
-
-  useEffect(() => {
-    document.addEventListener("fullscreenchange", exitHandler);
-    document.addEventListener("webkitfullscreenchange", exitHandler);
-    document.addEventListener("mozfullscreenchange", exitHandler);
-    document.addEventListener("MSFullscreenChange", exitHandler);
-
-    return () => {
-      document.removeEventListener("fullscreenchange", exitHandler);
-      document.removeEventListener("webkitfullscreenchange", exitHandler);
-      document.removeEventListener("mozfullscreenchange", exitHandler);
-      document.removeEventListener("MSFullscreenChange", exitHandler);
-    };
-  }, []);
-
-  const handleIframeLoad = () => {
-    if (url != null) {
-      document.getElementById("game-window-iframe").classList.remove("d-none");
-      setIframeLoaded(true);
-    }
-  };
-
-  const handleIframeError = () => {
-    console.error("Error loading game iframe");
-    setIframeLoaded(false);
-  }
-
   if (props.isMobile) {
     return null;
   }
 
-  const launchGame = (game, type, launcher) => {
-    setUrl(null);
-    setIframeLoaded(false);
-    setTxtSearch("");
-    document.getElementById("game-window-iframe").classList.add("d-none");
+  const handleCategoryClick = (tag, _id, _table, index) => {
+    props.onClose && props.onClose();
 
-    setTimeout(() => {
-      callApi(contextData, "GET", "/get-game-url?game_id=" + game.id, callbackLaunchGame, null);
-    }, 50);
-  };
-
-  const callbackLaunchGame = (result) => {
-    if (result.status == "0") {
-      setUrl(result.url);
-    } else {
-      setIsGameLoadingError(true);
+    if (window.location.hash !== `#${tag.code}`) {
+      window.location.hash = `#${tag.code}`;
+    } else if (props.getPage) {
+      props.getPage(tag.code);
     }
   };
 
-  const configureImageSrc = (result) => {
-    (result.content || []).forEach((element) => {
-      let imageDataSrc = element.image_url;
-      if (element.image_local != null) {
-        imageDataSrc = contextData.cdnUrl + element.image_local;
-      }
-      element.imageDataSrc = imageDataSrc;
-    });
-  };
-
-  const search = (e) => {
-    let keyword = e.target.value;
-    setTxtSearch(keyword);
-
-    if (navigator.userAgent.match(/Android|BlackBerry|iPhone|iPad|iPod|Opera Mini|IEMobile/i)) {
-      let keyword = e.target.value;
-      do_search(keyword);
-    } else {
-      if (
-        (e.keyCode >= 48 && e.keyCode <= 57) ||
-        (e.keyCode >= 65 && e.keyCode <= 90) ||
-        e.keyCode == 8 ||
-        e.keyCode == 46
-      ) {
-        do_search(keyword);
-      }
-    }
-
-    if (e.key === "Enter" || e.keyCode === 13 || e.key === "Escape" || e.keyCode === 27) {
-      searchRef.current?.blur();
-    }
-  };
-
-  const do_search = (keyword) => {
-    setIsSearch(true);
-    clearTimeout(searchDelayTimer);
-
-    if (keyword == "") {
-      return;
-    }
-
-    setGames([]);
-
-    let pageSize = 20;
-    let searchDelayTimerTmp = setTimeout(function () {
-      callApi(
-        contextData,
-        "GET",
-        "/search-content?keyword=" + txtSearch + "&page_group_code=" + "default_pages_home" + "&length=" + pageSize,
-        callbackSearch,
-        null
-      );
-    }, 1000);
-
-    setSearchDelayTimer(searchDelayTimerTmp);
-  };
-
-  const callbackSearch = (result) => {
-    setIsSearch(false);
-    if (result.status === 500 || result.status === 422) {
-
-    } else {
-      configureImageSrc(result, true);
-      setGames(result.content);
-    }
+  const handleProviderSelect = (provider) => {
+    props.onClose && props.onClose();
+    props.onProviderSelect && props.onProviderSelect(provider);
   };
 
   return (
     <>
-      <div className="casino-game-background" style={{ backgroundImage: `url(${props.gameImg})` }}></div>
-      <div className="d-none game-view-container gradient with-background">
-        {
-          txtSearch !== "" && <div className="game-search-result">
-            <div className="search-results-container">
-              <div className="search-results-inner-container">
+      <div className="casino game">
+        <div className="casino-menu">
+          <SearchInput
+            txtSearch={props.txtSearch}
+            setTxtSearch={props.setTxtSearch}
+            searchRef={searchRef}
+            search={props.search}
+            isMobile={props.isMobile}
+          />
+          <div className="casino-menu__shadow">
+            <div className="casino-menu__scroll">
+              <div className="casino-menu-block categories">
+                <div className="casino-menu-block__title">Categorías</div>
                 {
-                  isSearch ? <>
-                    <div className="pt-1">
-                      <LoadApi />
-                    </div>
-                  </> :
-                    games.length > 0 ? games.map((item, index) => {
-                      let imageDataSrc = item.image_url;
-                      if (item.image_local != null) {
-                        imageDataSrc = contextData.cdnUrl + item.image_local;
-                      }
-
-                      return (
-                        <div
-                          className="game-result-row"
-                          key={index}
-                          onClick={() => launchGame(item, "slot", "tab")}
-                        >
-                          <div className="game-image" style={{ backgroundImage: `url(${imageDataSrc})` }}></div>
-                          <div className="game-title">
-                            <span className="game-name">{item.name}</span>
-                            <span className="game-studio"><span className="text-uppercase">{item.type}</span></span>
-                          </div>
-                        </div>
-                      )
-                    }) : <div className="no-results">
-                      No se encontró ningún juego que coincida con la búsqueda : ' {txtSearch} '
-                    </div>
+                  (props.tags || []).length > 0 && (
+                    <CategoryContainer
+                      categories={props.tags}
+                      selectedCategoryIndex={-1}
+                      selectedProvider={props.selectedProvider}
+                      onCategoryClick={(tag, _id, _table, index) => handleCategoryClick(tag, _id, _table, index)}
+                      onCategorySelect={() => {}}
+                      isMobile={props.isMobile}
+                      pageType="casino"
+                    />
+                  )
                 }
               </div>
-            </div>
-          </div>
-        }
-
-        <div className="game-head-wrapper" id="gameHeadWrapper">
-          <div className="game-head-section">
-            <div className="search-section">
-              <div className="search-container in-game">
-                <div className="search-group">
-                  <input
-                    ref={searchRef}
-                    type="text"
-                    placeholder="Buscar"
-                    onKeyUp={search}
-                    value={txtSearch}
-                    onChange={(event) => {
-                      setTxtSearch(event.target.value);
-                    }}
+              <div className="casino-menu-block">
+                <div className="casino-menu-block__title">Proveedores</div>
+                <div className="casino-menu-block__content">
+                  <ProviderContainer
+                    categories={props.categories}
+                    selectedProvider={props.selectedProvider}
+                    setSelectedProvider={props.setSelectedProvider}
+                    onProviderSelect={(provider) => handleProviderSelect(provider)}
                   />
-                  <span className="input-group-append">
-                    <button type="button"><i className="material-icons">search</i></button>
-                  </span>
                 </div>
-              </div>
-              <div className="play-for-fun-switch">
-                <div className="inner">
-                  <span className="fun">{props.gameName || "Joker's Jewels"}</span>
-                </div>
-              </div>
-            </div>
-            <div className="icon-section">
-              <div className="game-fullscreen game-button">
-                <img src={IconEnlarge} alt="Fullscreen" onClick={toggleFullScreen} />
-              </div>
-              <div className="game-close game-button">
-                <img src={IconClose} alt="Close" onClick={closeModal} />
               </div>
             </div>
           </div>
         </div>
-        <div className="game-container">
-          <div className="game-container-inner">
-            {iframeLoaded == false && (
-              <div className="game-window-iframe-wrapper">
-                <LoadCasino />
+        <div className="casino_game">
+          <div className="game_interface">
+            <div>
+              <a onClick={() => props.onClose && props.onClose()}>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  version="1.1"
+                  xmlnsXlink="http://www.w3.org/1999/xlink"
+                  xmlns:svgjs="http://svgjs.com/svgjs"
+                  width="19"
+                  height="19"
+                  fill="#fff"
+                  x="0"
+                  y="0"
+                  viewBox="0 0 240.823 240.823"
+                  xmlSpace="preserve"
+                >
+                <g>
+                  <path
+                    d="M57.633 129.007 165.93 237.268c4.752 4.74 12.451 4.74 17.215 0 4.752-4.74 4.752-12.439 0-17.179l-99.707-99.671 99.695-99.671c4.752-4.74 4.752-12.439 0-17.191-4.752-4.74-12.463-4.74-17.215 0L57.621 111.816c-4.679 4.691-4.679 12.511.012 17.191z"
+                  ></path>
+                </g>
+                </svg>
+              </a>
+            </div>
+            <div>Slotham City</div>
+            <div>
+              <a onClick={() => props.onClose && props.onClose()} className="favorites router-link-active">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  version="1.1"
+                  xmlnsXlink="http://www.w3.org/1999/xlink"
+                  xmlns:svgjs="http://svgjs.com/svgjs"
+                  width="19"
+                  height="19"
+                  fill="#fff"
+                  x="0"
+                  y="0"
+                  viewBox="0 0 100 100"
+                  xmlSpace="preserve"
+                >
+                  <g transform="matrix(1.1600000000000001,0,0,1.1600000000000001,-7.999963912963871,-7.999999389648437)">
+                    <path
+                      d="M89.787 40.876 53.702 14.905a6.296 6.296 0 0 0-3.7-1.194 6.302 6.302 0 0 0-3.698 1.192L10.129 40.939c-3.294 2.372-3.631 7.346-.225 10.12 2.152 1.752 5.443 1.742 7.622.156l1.908-1.373v30.117a6.33 6.33 0 0 0 6.33 6.33h9.408a6.33 6.33 0 0 0 6.33-6.33V60.433a8.499 8.499 0 1 1 16.998 0v19.525a6.33 6.33 0 0 0 6.33 6.33h9.407a6.33 6.33 0 0 0 6.33-6.33V49.84l1.74 1.253c2.363 1.729 5.778 1.793 8.011-.213 3.226-2.897 2.729-7.656-.531-10.004z"
+                    ></path>
+                  </g>
+                </svg>
+              </a>
+            </div>
+            <div>
+              <div className="game_favorite">
+                <div>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    xmlnsXlink="http://www.w3.org/1999/xlink"
+                    xmlns:svgjs="http://svgjs.com/svgjs"
+                    version="1.1"
+                    width="19"
+                    height="19"
+                    x="0"
+                    y="0"
+                    viewBox="0 0 511.98685 511"
+                    xmlSpace="preserve"
+                    fill="#cccccc"
+                  >
+                    <g>
+                      <path
+                        xmlns="http://www.w3.org/2000/svg"
+                        d="m510.652344 185.902344c-3.351563-10.367188-12.546875-17.730469-23.425782-18.710938l-147.773437-13.417968-58.433594-136.769532c-4.308593-10.023437-14.121093-16.511718-25.023437-16.511718s-20.714844 6.488281-25.023438 16.535156l-58.433594 136.746094-147.796874 13.417968c-10.859376 1.003906-20.03125 8.34375-23.402344 18.710938-3.371094 10.367187-.257813 21.738281 7.957031 28.90625l111.699219 97.960937-32.9375 145.089844c-2.410156 10.667969 1.730468 21.695313 10.582031 28.09375 4.757813 3.4375 10.324219 5.1875 15.9375 5.1875 4.839844 0 9.640625-1.304687 13.949219-3.882813l127.46875-76.183593 127.421875 76.183593c9.324219 5.609376 21.078125 5.097657 29.910156-1.304687 8.855469-6.417969 12.992187-17.449219 10.582031-28.09375l-32.9375-145.089844 111.699219-97.941406c8.214844-7.1875 11.351563-18.539063 7.980469-28.925781zm0 0"
+                      ></path>
+                    </g>
+                  </svg>
+                </div>
               </div>
-            )}
+            </div>
+          </div>
 
+          <div className="casino_iframe_wrap">
             <div
-              id="game-window-iframe"
-              className="game-window-iframe-wrapper d-none"
+              id="play_content"
+              className="game-window-iframe-wrapper"
             >
               <iframe
                 allow="camera;microphone;fullscreen *"
                 src={url}
-                onLoad={handleIframeLoad}
-                onError={handleIframeError}
+                // onLoad={handleIframeLoad}
+                // onError={handleIframeError}
                 className="game"
                 style={{ border: 'none' }}
               ></iframe>
@@ -307,16 +176,6 @@ const GameModal = (props) => {
           </div>
         </div>
       </div>
-      {
-        isGameLoadingError && <div className="container">
-          <div className="row">
-            <div className="col-md-6 error-loading-game">
-              <div className="alert alert-warning">Error al cargar el juego. Inténtalo de nuevo o ponte en contacto con el equipo de soporte.</div>
-              <a className="btn btn-primary" onClick={() => window.location.reload()}>Volver a la página principal</a>
-            </div>
-          </div>
-        </div>
-      }
     </>
   );
 };

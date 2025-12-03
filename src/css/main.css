@@ -71,6 +71,7 @@
     --casino_play_color: #fff;
     --casino_play_hover: rgba(10, 16, 31, 0.45);
     --casino_interface_color: #0095ff;
+    --casino_interface_bg: #141b2e;
     --jackpot_border: 2px solid #c5991e;
     --jackpot_radius: 15px;
     --slider_bg: var(--block_bg);
@@ -3447,7 +3448,6 @@ side .side_menu_btns {
 
 .home_slider {
     display: flex;
-    gap: 15px;
     min-width: 0;
     position: relative;
 }
@@ -4535,3 +4535,7 @@ side .side_menu_btns {
         height: calc(100% - 50px)
     }
 }
+
+.game_interface a {
+    cursor: pointer;
+} 

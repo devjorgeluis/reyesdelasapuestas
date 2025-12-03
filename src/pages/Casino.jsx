@@ -7,7 +7,7 @@ import { callApi } from "../utils/Utils";
 import GameCard from "/src/components/GameCard";
 import Slideshow from "../components/Casino/Slideshow";
 import CategoryContainer from "../components/CategoryContainer";
-import ProviderContainer from "../components/providerContainer";
+import ProviderContainer from "../components/ProviderContainer";
 import GameModal from "../components/Modal/GameModal";
 import LoadApi from "../components/Loading/LoadApi";
 import SearchInput from "../components/SearchInput";
@@ -34,6 +34,7 @@ const Casino = () => {
   const [categories, setCategories] = useState([]);
   const [mainCategories, setMainCategories] = useState([]);
   const [activeCategory, setActiveCategory] = useState({});
+  const [categoryType, setCategoryType] = useState("");
   const [selectedProvider, setSelectedProvider] = useState(null);
   const [pageData, setPageData] = useState({});
   const [gameUrl, setGameUrl] = useState("");
@@ -117,6 +118,7 @@ const Casino = () => {
     if (result.status === 500 || result.status === 422) {
 
     } else {
+      setCategoryType(result.data.page_group_type);
       setSelectedProvider(null);
       setPageData(result.data);
 
@@ -157,8 +159,9 @@ const Casino = () => {
   };
 
   const fetchContentForCategory = (category, categoryId, tableName, categoryIndex, resetCurrentPage, pageGroupCode = null) => {
-    const pageSize = 30;
+    const pageSize = 12;
     const groupCode = pageGroupCode || pageData.page_group_code;
+    
     const apiUrl =
       "/get-content?page_group_type=categories&page_group_code=" +
       groupCode +
@@ -236,7 +239,7 @@ const Casino = () => {
     setActiveCategory(category);
     setSelectedCategoryIndex(categoryIndex);
 
-    const groupCode = pageGroupCode || pageData.page_group_code;
+    const groupCode = categoryType === "categories" ? pageGroupCode || pageData.page_group_code : "default_pages_home"
 
     let apiUrl =
       "/get-content?page_group_type=categories&page_group_code=" +
@@ -286,6 +289,7 @@ const Casino = () => {
   const launchGame = (game, type, launcher) => {
     setShouldShowGameModal(true);
     setShowFullDivLoading(true);
+    setActiveCategory(null);
     selectedGameId = game.id != null ? game.id : selectedGameId;
     selectedGameType = type != null ? type : selectedGameType;
     selectedGameLauncher = launcher != null ? launcher : selectedGameLauncher;
@@ -441,6 +445,15 @@ const Casino = () => {
           ref={refGameModal}
           onClose={closeGameModal}
           isMobile={isMobile}
+          categories={categories}
+          selectedProvider={selectedProvider}
+          setSelectedProvider={setSelectedProvider}
+          onProviderSelect={handleProviderSelect}
+          tags={tags}
+          txtSearch={txtSearch}
+          setTxtSearch={setTxtSearch}
+          search={search}
+          getPage={getPage}
         />
       ) : (
         <>
