@@ -4,10 +4,9 @@ import Casino from "./pages/Casino";
 import LiveCasino from "./pages/LiveCasino";
 import Sports from "./pages/Sports";
 import LiveSports from "./pages/LiveSports";
+import SportsHistory from "./pages/SportsHistory";
 import Profile from "./pages/Profile/Profile";
-import ProfileBalance from "./pages/Profile/ProfileBalance";
 import ProfileHistory from "./pages/Profile/ProfileHistory";
-import NoAuthGamePage from "./pages/NoAuthGamePage";
 import NoPage from "./pages/NoPage";
 import Layout from "./components/Layout/Layout";
 
@@ -21,10 +20,9 @@ export default function AppRoutes() {
                 <Route path="/live-casino" element={<LiveCasino />} />
                 <Route path="/sports" element={<Sports />} />
                 <Route path="/live-sports" element={<LiveSports />} />
+                <Route path="/sports-history" element={<SportsHistory />} />
                 <Route path="/profile" element={<Profile />} />
-                <Route path="/profile/balance" element={<ProfileBalance />} />
                 <Route path="/profile/history" element={<ProfileHistory />} />
-                <Route path="/game-login" element={<NoAuthGamePage gameName="Game" gameImg="" />} />
                 <Route path="*" element={<NoPage />} />
             </Route>
         </Routes>

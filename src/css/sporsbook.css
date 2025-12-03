@@ -1,0 +1,245 @@
+div.betcore-container {
+    --container-background-color: rgba(9, 15, 30, 0);
+    --primary-background-color: #202227;
+    --primary-text-color: #fff;
+    --secondary-background-color: #292d32;
+    --secondary-text-color: #fff;
+    --tertiary-background-color: #edf2ff;
+    --tertiary-text-color: #000;
+    --blur-background-color: #141b2e;
+    --gray-text-color1: #9196a4;
+    --primary-gradient-background: #3C4149;
+    --primary-gradient-text-color: #fff;
+    --secondary-gradient-background: linear-gradient(180deg, #f2a100 1%, #fbc55b);
+    --secondary-gradient-text-color: #fff;
+    --scrollbar-track-background-color: #292d32;
+    --scrollbar-thumb-background-color: #3c4149;
+    --skeleton-gradient-background: linear-gradient(to left, #1c2438 0%, #202b45 30%, #1c2438 60%, #1c2438 100%) #1c2438;
+    --icon-background-color: #0484f0;
+    --primary-active-background-color: #f2a100;
+    --primary-active-text-color: #fff;
+    --primary-seperator-background-color: #caddfd;
+    --secondary-seperator-background-color: #40475d;
+    --line-background-color: #d3b363;
+    --line-text-color: #fff;
+    --live-background-color: #d3b363;
+    --live-text-color: #fff;
+    --vs-background-color: #0484f0;
+    --player1-text-color: #3DA5FF;
+    --player2-text-color: #93C738;
+    --primary-odd-background-color: #D0DAF3;
+    --primary-odd-text-color: #090F1E;
+    --primary-odd-active-background-color: #f2a100;
+    --primary-odd-active-text-color: #000;
+    --primary-odd-empty-background-color: #E7EDFC;
+    --secondary-odd-background-color: #2d3750;
+    --secondary-odd-text-color: #fff;
+    --secondary-odd-active-background-color: #f2a100;
+    --secondary-odd-active-text-color: #000;
+    --secondary-odd-empty-background-color: #263048;
+    --collection-background-color: #d6dcec;
+    --coupon-bet-background-color: #fff;
+    --coupon-bet-text-color: #000;
+    --tab-active-background-color: #f2a100;
+    --tab-active-text-color: #fff;
+    --freebet-background-color: #d3b363;
+    --freebet-text-color: #000;
+    --input-background-color: #3C4149;
+    --input-active-background-color: #2a375a;
+    --input-text-color: #fff;
+    --dropdown-background-color: #1f2841;
+    --dropdown-active-background-color: #2a375a;
+    --dropdown-text-color: #fff;
+    --dropdown-content-background-color: #fff;
+    --dropdown-content-active-background-color: #e9e9e9;
+    --dropdown-content-text-color: #000;
+    --selector-active-background-color: #2196f3;
+    --selector-disabled-background-color: #ccc;
+    --primary-button-background-color: #4a73a6;
+    --primary-button-text-color: #fff;
+    --secondary-button-background-color: #273046;
+    --secondary-button-text-color: #fff;
+    --tertiary-button-background-color: #f2a100;
+    --tertiary-button-text-color: #fff;
+    --gradient-button-background: linear-gradient(103deg, #108de7 -30%, #0855c4);
+    --gradient-button-text-color: #fff;
+    --small-border-radius: 4px;
+    --default-border-radius: 8px;
+    --big-border-radius: 15px;
+    --left_panel-size: 270px;
+    --right_panel-size: 300px;
+    --container-height: 100vh;
+    --top-margin: 10px;
+    --stream_right_panel-size: 370px;
+    --modals-zIndex: 1000;
+    --event-text-color: #fff;
+    --disabled-background-color: rgba(20, 27, 46, .7);
+    --error-background-color: #f2a100;
+    --error-text-color: #fff;
+    --success-background-color: #3a974d;
+    --success-text-color: #fff;
+    --transparent-background-color: rgba(255, 255, 255, 0.1);
+    --transparent-text-color: #fff;
+    --coupon_close-color: #000;
+    --coupon_disabled_close-color: #fff;
+    --preloader-background-color: #090f1e;
+}
+
+.mobile-coupon-button {
+  position: fixed;
+  color: #fff;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: #3a3e4e;
+  border: 1px solid #212633;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  bottom: 55px;
+  right: 2rem;
+  cursor: pointer;
+  z-index: 999;
+  transform: translate(-50%, -50%);
+  left: 50%;
+}
+.mobile-coupon-button svg {
+  display: inherit;
+  fill: currentColor;
+  flex: none;
+  height: 1em;
+  overflow: visible;
+}
+.mobile-coupon-button .mobile-coupon-button__count {
+  position: absolute;
+  color: #000;
+  font-weight: 600;
+  font-size: 12px;
+  top: 15px;
+  text-align: center;
+}
+
+@media(max-width: 1000px){
+  .mobile-coupon-button {
+    display: flex;
+  }
+}
+div.betcore-container .event-container .event-wrap .event__info {
+	background-image: none !important;
+	background: var(--primary-background-color);
+}
+div.betcore-container .event-container .event-wrap .event__info.line {
+	grid-template-columns: 1fr 1fr;
+	grid-template-areas: "header header" "details timer";
+}
+div.betcore-container .event-container .event-wrap .event__info.line .event__details {
+	padding-bottom: 0;
+}
+div.betcore-container .event-container .event-wrap .event__info .event__details {
+	margin: 0;
+	gap: inherit !important;
+	grid-template-areas: "middle" "opp-1" "opp-2";
+	text-align: left;
+}
+div.betcore-container .event-container .event-wrap .event__info .event__details .details__start .formated-time .time__date {
+	padding-left: 0;
+}
+div.betcore-container .event-container .event-wrap .event__info .event__details .details__opp {
+	font-size: 14px;
+	column-gap: 5px;
+	justify-content: flex-start !important;
+}
+div.betcore-container .event-container .event-wrap .event__info .event__details .details__opp .opp__icon {
+	width: 24px;
+	height: 24px;
+	min-width: 24px;
+}
+div.betcore-container .event-container .event-wrap .event__info .event__details .details__opp--1 {
+	flex-direction: row;
+}
+div.betcore-container .event-container .event-wrap .event__info .event__details .details__middle {
+	margin-bottom: 15px;
+}
+div.betcore-container .event-container .event-wrap .event__info .event__details .details__livetime {
+	left: 0;
+	transform: translate(0);
+}
+div.betcore-container .event-container .event-wrap .event__info .event__timer {
+	justify-content: flex-start;
+	align-self: end;
+	margin-left: auto;
+}
+div.betcore-container .event-container .event-wrap .event__info .event__header {
+	display: block;
+	padding: 0;
+	margin-bottom: 0;
+}
+div.betcore-container .event-container .event-wrap .event__info .event__header .header__title {
+	text-align: left;
+	padding-top: 30px;
+}
+div.betcore-container .event-container .event-wrap .event__info .event__scoreboard {
+	justify-content: flex-start;
+}
+div.betcore-container .event-container .event-wrap .event__info.live {
+	grid-template-areas: "header" "details" "scoreboard";
+}
+div.betcore-container .event-container .event-wrap .event__info.live .details__middle {
+	display: flex;
+	flex-direction: row-reverse;
+	justify-content: flex-end;
+	align-items: center;
+}
+div.betcore-container .event-container .event-wrap .event__info.live .details__middle .details__livetime {
+	position: initial;
+	margin-top: 0;
+	margin-left: 10px;
+	background-color: rgba(151, 174, 225, 0.11);
+	padding: 5px 10px;
+	border-radius: 100px;
+} 
+
+@media (max-width: 1000px) {
+	div.betcore-container .event-container .event-wrap .event__info.line {
+	   grid-template-areas: "header" "details" "timer";
+	   grid-template-columns: 1fr;
+	}
+	div.betcore-container .event-container .event-wrap .event__info.line .event__details {
+	   padding-bottom: 15px;
+	}
+	div.betcore-container .event-container .event-wrap .event__info.line .event__timer {
+	   justify-content: flex-start;
+	   margin-left: 0;
+	}
+}
+
+div.betcore-container{
+    padding: 0;
+}
+
+div.betcore-container .layout{
+    padding: 0;
+}
+
+div.betcore-container .mobile-layout{
+    padding: 10px 0 0 0;
+    color: #fff;
+}
+
+div.betcore-container .sum__options{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 8px;
+}
+
+div.betcore-container .sum__options .option{
+ text-align: center
+}
+
+div.betcore-container .preloader{
+	background-size: 90px;
+}
+
+div.betcore-container .home-container .carousel>.carousel__wrap>.carousel__items>.items__item .carousel .carousel__odds .odds-list .stake-button:not(.active):not(.empty):not(.disabled):not(:hover){
+	background: var(--secondary-gradient-background);
+}

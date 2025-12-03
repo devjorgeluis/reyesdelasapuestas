@@ -4566,4 +4566,214 @@ side .side_menu_btns {
 
 .game_interface a {
     cursor: pointer;
-} 
+}
+
+.betcore-container *:not(.preloader) {
+    display: block;
+    width: initial;
+    position: initial;
+    padding: 0;
+    border: 0;
+    top: initial;
+    left: initial;
+    right: initial;
+    bottom: initial;
+    max-width: initial;
+    flex-direction: initial;
+    pointer-events: inherit;
+    cursor: inherit;
+    font: inherit;
+    font-size: 100%;
+    vertical-align: baseline;
+    box-sizing: border-box;
+    background: initial;
+    border: 0;
+    border-radius: 0;
+    filter: inherit;
+}
+
+.betcore-container .main-panel {
+    position: relative;
+    grid-area: main_panel;
+    height: inherit;
+    overflow: hidden;
+    padding-bottom: 100px;
+    flex: 1;
+}
+
+.betcore-container, .betcore-container *:not(.scroll) {
+    scrollbar-width: thin;
+    scrollbar-color: var(--scrollbar-thumb-background-color) var(--scrollbar-track-background-color);
+}
+
+.betcore-container .history-container {
+    background: var(--primary-background-color);
+    color: var(--primary-text-color);
+    padding: 10px;
+    border-radius: var(--default-border-radius);
+    min-height: 200px;
+}
+
+.betcore-container .history-container .history__header {
+    display: flex;
+    align-items: center;
+    padding: 15px 10px 20px;
+    justify-content: space-between;
+}
+
+.betcore-container .history-container .history__header .history__title {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.betcore-container .history-container .history__header .history__filters {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 15px;
+}
+
+.betcore-container .history-container .history__pages {
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    column-gap: 5px;
+}
+
+.betcore-container .history-container .history__header .history__pages {
+    margin: 0px auto;
+}
+
+.betcore-container .i--arrow.right {
+    transform: rotate(180deg);
+}
+
+.betcore-container .history-container .table__header,
+.betcore-container .history-container .table__body {
+    display: flex;
+    padding: 10px 35px 15px 15px;
+    align-items: center;
+    column-gap: 15px;
+    font-weight: 600;
+}
+
+.betcore-container .history-container .history__error {
+    text-align: center;
+    font-weight: 600;
+    padding: 40px 0;
+}
+
+.betcore-container .left-panel {
+    background: var(--primary-background-color);
+    color: var(--primary-text-color);
+    border-radius: var(--default-border-radius);
+    height: calc(var(--container-height) - var(--top-margin));
+    position: sticky;
+    top: var(--top-margin);
+    display: flex;
+    grid-area: left_panel;
+    font-size: 13px;
+    width: var(--left_panel-size);
+}
+
+.betcore-container .right-panel {
+    grid-area: right_panel;
+    height: calc(var(--container-height) - var(--top-margin));
+    position: sticky;
+    padding-right: 5px;
+    overflow-y: auto;
+    top: var(--top-margin);
+    width: var(--right_panel-size);
+}
+
+.betcore-container .history-container .history__header .history__filters .dropdown-container {
+    min-width: 150px;
+    margin-bottom: 0;
+}
+
+.betcore-container .dropdown-container {
+    display: inline-flex;
+    position: relative;
+    flex: 2;
+    width: 100%;
+    margin-bottom: 0;
+}
+
+.betcore-container .dropdown-container .dropdown-toggle {
+    display: inline;
+    padding: 6px 10px;
+    background-color: var(--dropdown-background-color);
+    color: var(--dropdown-text-color);
+    border-radius: var(--default-border-radius);
+    cursor: pointer;
+    transition: all ease-in-out .1s;
+    white-space: nowrap;
+    width: 100%;
+    border-radius: var(--default-border-radius);
+}
+
+.betcore-container .dropdown-container .dropdown-menu {
+    max-height: 300px;
+    overflow: auto;
+    min-width: 100%;
+    margin-top: 5px;
+    position: absolute;
+    right: 0;
+    top: 100%;
+    display: none;
+    z-index: 7;
+    border-radius: var(--default-border-radius);
+}
+
+.betcore-container .dropdown-container.dropdown-open .dropdown-toggle {
+    background-color: var(--dropdown-active-background-color);
+}
+
+.betcore-container>.layout {
+    display: flex;
+    column-gap: 10px;
+    padding: 10px;
+    padding-right: 5px;
+}
+
+.betcore-container .history-container .history__footer {
+    display: flex;
+    justify-content: center;
+    padding: 15px 0;
+    margin-top: 20px;
+}
+
+.betcore-container .history-container .table__header .header__amount {
+    min-width: 7rem;
+}
+
+.betcore-container .history-container .table__header .header__odd {
+    min-width: 4rem;
+}
+
+.betcore-container .history-container .table__header .header__possible_win {
+    min-width: 7rem;
+    margin-left: auto;
+    text-align: right;
+}
+
+.betcore-container .history-container .table__header .header__status {
+    min-width: 7rem;
+    text-align: right;
+}
+
+.betcore-container .history-container .table__header .header__empty {
+    min-width: 18rem;
+}
+
+.betcore-container .dropdown-container .dropdown-menu .dropdown-menu__row {
+    cursor: pointer;
+    padding: 8px 10px;
+    background-color: var(--dropdown-content-background-color);
+    color: var(--dropdown-content-text-color);
+    white-space: nowrap;
+}
+
+.betcore-container .dropdown-container .dropdown-menu .dropdown-menu__row.active {
+    filter: brightness(0.9);
+}

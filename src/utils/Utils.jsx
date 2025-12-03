@@ -1,5 +1,3 @@
-const someCommonValues = ['common', 'values'];
-
 export const resolvePath = (object, path, defaultValue) => path
   .split('.')
   .reduce((o, p) => o ? o[p] : defaultValue, object)
@@ -25,8 +23,6 @@ export const callApi = (contextData, method, methodUrl, callbackFunction, body) 
       case 401:
         localStorage.removeItem('session');
         window.location.reload();
-        // var redirectUrl = window.location.origin + '/login';
-        // window.location.href = redirectUrl;
         return
     }
     return res.json()
@@ -39,8 +35,5 @@ export const callApi = (contextData, method, methodUrl, callbackFunction, body) 
 }
 
 export const getFormattedDate = (dateString) => {
-  // let dateObject = new Date(dateString)
-  // let dateResult = dateObject.getDate() + '/' + (dateObject.getMonth() + 1) + '/' + dateObject.getFullYear() + ' ' + dateObject.getHours() + ':' + dateObject.getMinutes()
-  // return dateResult
   return dateString
 }
