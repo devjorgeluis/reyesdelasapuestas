@@ -153,6 +153,7 @@ const Layout = () => {
                 value={{ selectedPage, setSelectedPage, getPage, showFullDivLoading, setShowFullDivLoading }}
             >
                 <>
+                    {!isSportsPage && <ChatButton />}
                     {/* <FullDivLoading show={showFullDivLoading} />
                     {!isSportsPage && <ChatButton />} */}
                     {showLoginModal && (
