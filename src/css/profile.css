@@ -404,6 +404,7 @@
 
 .pagination span {
     font-weight: 600;
+    cursor: pointer;
 }
 
 .pagination button:disabled {

@@ -1,6 +1,7 @@
 import { useContext, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { AppContext } from "../../AppContext";
+import { callApi } from "../../utils/Utils";
 import '../../css/profile.css';
 
 const Profile = () => {
@@ -18,6 +19,17 @@ const Profile = () => {
         window.scrollTo(0, 0);
     }, [location.pathname]);
 
+    const handleLogoutClick = () => {
+        callApi(contextData, "POST", "/logout", (result) => {
+            if (result.status === "success") {
+                setTimeout(() => {
+                    localStorage.removeItem("session");
+                    window.location.href = "/";
+                }, 200);
+            }
+        }, null);
+    };
+
     return (
         <div className="profile">
             <div className="profile__left">
@@ -29,7 +41,7 @@ const Profile = () => {
 
                     <div className="profile-menu">
                         <a
-                            href="/profile/settings"
+                            href="#"
                             className="active router-link-exact-active menu__row"
                             aria-current="page"
                         >
@@ -50,7 +62,7 @@ const Profile = () => {
                             <div className="menu__row--title">Mi cuenta</div>
                         </a>
 
-                        <a href="/profile/history" className="menu__row">
+                        <a onClick={() => navigate("/profile/history")} className="menu__row">
                             <div className="menu__row--icon">
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -70,7 +82,7 @@ const Profile = () => {
                             <div className="menu__row--title">Historial financiero</div>
                         </a>
 
-                        <div className="menu__row logout" onClick={() => logout()}>
+                        <div className="menu__row logout" onClick={handleLogoutClick}>
                             <div className="menu__row--icon">
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
