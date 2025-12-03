@@ -1,20 +1,21 @@
 import { useState, useEffect, useRef } from "react";
-import { useOutletContext } from "react-router-dom";
 import CategoryContainer from "../CategoryContainer";
 import ProviderContainer from "../ProviderContainer";
 import SearchInput from "../SearchInput";
+import LoadApi from "../Loading/LoadApi";
 
 const GameModal = (props) => {
   const [url, setUrl] = useState(null);
-  const [selectedCategoryIndex, setSelectedCategoryIndex] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
   const searchRef = useRef(null);
-  const { isSlotsOnly } = useOutletContext();
 
   useEffect(() => {
+    setIsLoading(true);
     if (props.gameUrl !== null && props.gameUrl !== "") {
       if (props.isMobile) {
         window.location.href = props.gameUrl;
       } else {
+        setIsLoading(false);
         setUrl(props.gameUrl);
       }
     }
@@ -52,22 +53,25 @@ const GameModal = (props) => {
           />
           <div className="casino-menu__shadow">
             <div className="casino-menu__scroll">
-              <div className="casino-menu-block categories">
-                <div className="casino-menu-block__title">Categorías</div>
-                {
-                  (props.tags || []).length > 0 && (
-                    <CategoryContainer
-                      categories={props.tags}
-                      selectedCategoryIndex={-1}
-                      selectedProvider={props.selectedProvider}
-                      onCategoryClick={(tag, _id, _table, index) => handleCategoryClick(tag, _id, _table, index)}
-                      onCategorySelect={() => {}}
-                      isMobile={props.isMobile}
-                      pageType="casino"
-                    />
-                  )
-                }
-              </div>
+              {
+                (props.tags || []).length > 0 && (
+                  <>
+                    <div className="casino-menu-block categories">
+                      <div className="casino-menu-block__title">Categorías</div>
+                      <CategoryContainer
+                        categories={props.tags}
+                        selectedCategoryIndex={-1}
+                        selectedProvider={props.selectedProvider}
+                        onCategoryClick={(tag, _id, _table, index) => handleCategoryClick(tag, _id, _table, index)}
+                        onCategorySelect={() => { }}
+                        isMobile={props.isMobile}
+                        pageType="casino"
+                      />
+                    </div>
+                  </>
+                )
+              }
+
               <div className="casino-menu-block">
                 <div className="casino-menu-block__title">Proveedores</div>
                 <div className="casino-menu-block__content">
@@ -99,11 +103,11 @@ const GameModal = (props) => {
                   viewBox="0 0 240.823 240.823"
                   xmlSpace="preserve"
                 >
-                <g>
-                  <path
-                    d="M57.633 129.007 165.93 237.268c4.752 4.74 12.451 4.74 17.215 0 4.752-4.74 4.752-12.439 0-17.179l-99.707-99.671 99.695-99.671c4.752-4.74 4.752-12.439 0-17.191-4.752-4.74-12.463-4.74-17.215 0L57.621 111.816c-4.679 4.691-4.679 12.511.012 17.191z"
-                  ></path>
-                </g>
+                  <g>
+                    <path
+                      d="M57.633 129.007 165.93 237.268c4.752 4.74 12.451 4.74 17.215 0 4.752-4.74 4.752-12.439 0-17.179l-99.707-99.671 99.695-99.671c4.752-4.74 4.752-12.439 0-17.191-4.752-4.74-12.463-4.74-17.215 0L57.621 111.816c-4.679 4.691-4.679 12.511.012 17.191z"
+                    ></path>
+                  </g>
                 </svg>
               </a>
             </div>
@@ -164,11 +168,11 @@ const GameModal = (props) => {
               id="play_content"
               className="game-window-iframe-wrapper"
             >
+              {isLoading && <LoadApi width="60" />}
               <iframe
                 allow="camera;microphone;fullscreen *"
                 src={url}
-                // onLoad={handleIframeLoad}
-                // onError={handleIframeError}
+                onLoad={() => setIsLoading(false)}
                 className="game"
                 style={{ border: 'none' }}
               ></iframe>

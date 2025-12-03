@@ -6,7 +6,7 @@ import { NavigationContext } from "../components/Layout/NavigationContext";
 import { callApi } from "../utils/Utils";
 import GameCard from "/src/components/GameCard";
 import Slideshow from "../components/Casino/Slideshow";
-import ProviderContainer from "../components/providerContainer";
+import ProviderContainer from "../components/ProviderContainer";
 import GameModal from "../components/Modal/GameModal";
 import LoadApi from "../components/Loading/LoadApi";
 import SearchInput from "../components/SearchInput";
@@ -30,6 +30,7 @@ const LiveCasino = () => {
   const [games, setGames] = useState([]);
   const [firstFiveCategoriesGames, setFirstFiveCategoriesGames] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [tags, setTags] = useState([]);
   const originalCategoriesRef = useRef([]);
   const [activeCategory, setActiveCategory] = useState({});
   const [selectedProvider, setSelectedProvider] = useState(null);
@@ -388,35 +389,6 @@ const LiveCasino = () => {
     setShowLoginModal(false);
   };
 
-  const handleCategorySelect = (category, index) => {
-    setSelectedProvider(null);
-    setTxtSearch("");
-    setSelectedCategoryIndex(index);
-    if (category.code === "home") {
-      setIsSingleCategoryView(false);
-      setActiveCategory(category);
-      setGames([]);
-      setFirstFiveCategoriesGames([]);
-      const firstFiveCategories = categories.slice(1, 6);
-      if (firstFiveCategories.length > 0) {
-        pendingCategoryFetchesRef.current = firstFiveCategories.length;
-        setIsLoadingGames(true);
-        firstFiveCategories.forEach((item, index) => {
-          fetchContentForCategory(item, item.id, item.table_name, index, true, pageData.page_group_code);
-        });
-      } else {
-        setIsLoadingGames(false);
-      }
-      navigate("/live-casino#home");
-      lastLoadedCategoryRef.current = null;
-    } else {
-      setIsSingleCategoryView(true);
-      setActiveCategory(category);
-      fetchContent(category, category.id, category.table_name, index, true);
-      lastLoadedCategoryRef.current = category.code;
-    }
-  };
-
   const handleProviderSelect = (provider, index = 0) => {
     if (!provider) {
       // "All providers" case
@@ -440,9 +412,8 @@ const LiveCasino = () => {
       return;
     }
 
-    // ← SELECTING A REAL PROVIDER
     setSelectedProvider(provider);
-    setActiveCategory(provider);           // ← This is CRITICAL
+    setActiveCategory(provider);
     setSelectedCategoryIndex(-1);
     setIsExplicitSingleCategoryView(true);
     setIsSingleCategoryView(true);
@@ -454,7 +425,6 @@ const LiveCasino = () => {
       setMobileShowMore(true);
     }
 
-    // Update URL
     navigate(`/live-casino#${provider.code}`);
   };
 
@@ -538,6 +508,15 @@ const LiveCasino = () => {
           ref={refGameModal}
           onClose={closeGameModal}
           isMobile={isMobile}
+          categories={categories}
+          selectedProvider={selectedProvider}
+          setSelectedProvider={setSelectedProvider}
+          onProviderSelect={handleProviderSelect}
+          tags={tags}
+          txtSearch={txtSearch}
+          setTxtSearch={setTxtSearch}
+          search={search}
+          getPage={getPage}
         />
       ) : (
         <>
@@ -586,7 +565,7 @@ const LiveCasino = () => {
                       ))}
                     </div>
                     <div className="mt-5">
-                      {isLoadingGames && <LoadApi />}
+                      {isLoadingGames && <LoadApi width={60} />}
                       {(isSingleCategoryView || txtSearch !== "" || selectedProvider) && !isLoadingGames && (
                         <div className="text-center">
                           <a className="btn btn-success load-more" onClick={() => loadMoreContent(activeCategory, selectedCategoryIndex)}>
@@ -627,7 +606,7 @@ const LiveCasino = () => {
                         </div>
                       );
                     })}
-                    {isLoadingGames && <LoadApi />}
+                    {isLoadingGames && <LoadApi width={60} />}
                   </>
                 )}
               </div>

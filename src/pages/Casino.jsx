@@ -580,7 +580,7 @@ const Casino = () => {
                   </div>
                 }
                 <div className="mt-5">
-                  {isLoadingGames && <LoadApi />}
+                  {isLoadingGames && <LoadApi width={60} />}
                   {txtSearch !== "" && !isLoadingGames && hasMoreGames && (
                     <div className="text-center">
                       <a className="btn btn-success load-more" onClick={loadMoreGames}>

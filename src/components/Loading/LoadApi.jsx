@@ -1,9 +1,9 @@
 import IconLoading from "/src/assets/img/miniloader.png";
 
-const LoadApi = () => {
+const LoadApi = ({ width }) => {
   return (
     <div className="home-block__loader">
-      <img src={IconLoading} />
+      <img src={IconLoading} width={width ? width : 100} />
     </div>
   );
 };

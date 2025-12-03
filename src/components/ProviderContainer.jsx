@@ -9,7 +9,6 @@ const ProviderContainer = ({
 }) => {
     const { contextData } = useContext(AppContext);
     const location = useLocation();
-    
     const providers = categories.filter(cat => cat.code !== "home" && cat.code);
     
     const handleClick = (e, provider) => {
