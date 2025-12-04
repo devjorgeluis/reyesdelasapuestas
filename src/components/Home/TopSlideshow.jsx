@@ -68,7 +68,7 @@ const TopSlideshow = ({ games, name, title, onGameClick }) => {
                             loop={true}
                             breakpoints={{
                                 320: {
-                                    slidesPerView: 3,
+                                    slidesPerView: 2,
                                 },
                                 992: {
                                     slidesPerView: 6,

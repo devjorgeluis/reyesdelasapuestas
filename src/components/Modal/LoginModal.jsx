@@ -1,20 +1,21 @@
 import { useContext, useState } from "react";
+import { NavigationContext } from "../Layout/NavigationContext";
 import { AppContext } from "../../AppContext";
 import { callApi } from "../../utils/Utils";
 
-const LoginModal = ({ isMobile, isOpen, onClose, onConfirm, onLoginSuccess }) => {
+const LoginModal = ({ isOpen, onClose, onLoginSuccess }) => {
     const { contextData, updateSession } = useContext(AppContext);
+    const { setShowFullDivLoading } = useContext(NavigationContext);
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [errorMsg, setErrorMsg] = useState("");
-    const [isLoading, setIsLoading] = useState(false);
 
     const handleSubmit = (event) => {
         const form = event.currentTarget;
         event.preventDefault();
         event.stopPropagation();
         if (form.checkValidity()) {
-            setIsLoading(true);
+            setShowFullDivLoading(true);
 
             let body = {
                 username: username,
@@ -31,7 +32,7 @@ const LoginModal = ({ isMobile, isOpen, onClose, onConfirm, onLoginSuccess }) =>
     };
 
     const callbackSubmitLogin = (result) => {
-        setIsLoading(false);
+        setShowFullDivLoading(false);
         if (result.status === "success") {
             localStorage.setItem("session", JSON.stringify(result));
             updateSession(result);
@@ -41,7 +42,6 @@ const LoginModal = ({ isMobile, isOpen, onClose, onConfirm, onLoginSuccess }) =>
             }
             setTimeout(() => {
                 onClose();
-                onConfirm();
             }, 1000);
         } else {
             setErrorMsg("Correo electrónico o contraseña no válidos");
@@ -90,9 +90,6 @@ const LoginModal = ({ isMobile, isOpen, onClose, onConfirm, onLoginSuccess }) =>
                                 required
                             />
                             <span className="placeholder">Contraseña</span>
-                        </div>
-                        <div className="auth_forgot">
-                            <a href="#forgot" className="modal_link">¿Ha olvidado su contraseña?</a>
                         </div>
                         <div className="notifications"></div>
                         <button type="submit">Ingresar</button>

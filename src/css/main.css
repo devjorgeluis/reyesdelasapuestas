@@ -1462,7 +1462,7 @@ side .middle_seporator {
 }
 
 .blocker {
-    z-index: 99999;
+    z-index: 99998;
     -webkit-backdrop-filter: blur(7px) brightness(115%);
     backdrop-filter: blur(7px) brightness(115%);
     background-color: rgba(10, 16, 31, 0.7);

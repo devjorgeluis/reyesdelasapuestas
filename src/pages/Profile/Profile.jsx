@@ -1,5 +1,6 @@
 import { useContext, useEffect } from "react";
 import { useNavigate, useLocation, useOutletContext } from "react-router-dom";
+import { NavigationContext } from "../../components/Layout/NavigationContext";
 import { AppContext } from "../../AppContext";
 import { callApi } from "../../utils/Utils";
 import '../../css/profile.css';
@@ -9,6 +10,7 @@ const Profile = () => {
     const location = useLocation();
     const { contextData } = useContext(AppContext);
     const { isMobile } = useOutletContext();
+    const { setShowFullDivLoading } = useContext(NavigationContext);
 
     useEffect(() => {
         if (!contextData?.session) {
@@ -21,6 +23,7 @@ const Profile = () => {
     }, [location.pathname]);
 
     const handleLogoutClick = () => {
+        setShowFullDivLoading(true);
         callApi(contextData, "POST", "/logout", (result) => {
             if (result.status === "success") {
                 setTimeout(() => {

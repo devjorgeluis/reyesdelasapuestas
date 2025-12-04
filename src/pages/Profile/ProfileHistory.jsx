@@ -1,5 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { NavigationContext } from "../../components/Layout/NavigationContext";
 import { AppContext } from "../../AppContext";
 import { callApi } from "../../utils/Utils";
 
@@ -7,6 +8,7 @@ const ProfileHistory = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const { contextData } = useContext(AppContext);
+    const { setShowFullDivLoading } = useContext(NavigationContext);
 
     const [transactions, setTransactions] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -88,6 +90,7 @@ const ProfileHistory = () => {
     };
 
     const handleLogoutClick = () => {
+        setShowFullDivLoading(true);
         callApi(contextData, "POST", "/logout", (result) => {
             if (result.status === "success") {
                 setTimeout(() => {
