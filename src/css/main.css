@@ -3580,6 +3580,7 @@ aside .side_menu_btns {
 .home-block__header>div:last-child a {
     font-weight: 600;
     color: var(--home_block_color);
+    cursor: pointer;
 }
 
 .home-block__header .home-block__title {

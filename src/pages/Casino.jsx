@@ -17,10 +17,10 @@ import "animate.css";
 import IconFavorite from "/src/assets/svg/favorites.svg";
 import ImgCategoryBonus from "/src/assets/img/category_bonus.png";
 import ImgCategoryPopular from "/src/assets/img/category_popular.png";
-import ImgCategoryBlackjack from "/src/assets/svg/category_blackjack.svg";
 import ImgCategoryLive from "/src/assets/img/category_live.png";
 import ImgCategorySlots from "/src/assets/img/category_slots.png";
-import ImgCategoryRoulette from "/src/assets/svg/category_roulette.svg";
+const ImgCategoryBlackjack = "/category_blackjack.svg";
+const ImgCategoryRoulette = "/category_roulette.svg";
 
 let selectedGameId = null;
 let selectedGameType = null;

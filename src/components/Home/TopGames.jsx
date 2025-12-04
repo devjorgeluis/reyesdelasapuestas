@@ -1,9 +1,11 @@
 import { useContext } from 'react';
+import { useNavigate } from "react-router-dom";
 import { AppContext } from '../../AppContext';
 import LoadApi from '../Loading/LoadApi';
 
-const TopGames = ({ games, text, title, onGameClick }) => {
+const TopGames = ({ games, text, title, link, onGameClick }) => {
     const { contextData } = useContext(AppContext);
+    const navigate = useNavigate();
 
     return (
         <div className="home-block">
@@ -11,7 +13,7 @@ const TopGames = ({ games, text, title, onGameClick }) => {
                 <div>
                     <div className="home-block__title">{title}</div>
                 </div>
-                <div><a href="/casino/categories/Popular">Todos</a></div>
+                <div><a onClick={() => navigate(link)}>Todos</a></div>
             </div>
             <div className="home-block__content">
                 {

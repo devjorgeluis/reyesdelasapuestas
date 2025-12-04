@@ -12,6 +12,13 @@ import GameModal from "../components/Modal/GameModal";
 import LoginModal from "../components/Modal/LoginModal";
 import "animate.css";
 
+import ImgCategoryBonus from "/src/assets/img/category_bonus.png";
+import ImgCategoryPopular from "/src/assets/img/category_popular.png";
+import ImgCategoryLive from "/src/assets/img/category_live.png";
+import ImgCategorySlots from "/src/assets/img/category_slots.png";
+const ImgCategoryBlackjack = "/category_blackjack.svg";
+const ImgCategoryRoulette = "/category_roulette.svg";
+
 
 let selectedGameId = null;
 let selectedGameType = null;
@@ -31,14 +38,17 @@ const Home = () => {
   const [topCasino, setTopCasino] = useState([]);
   const [topLiveCasino, setTopLiveCasino] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [tags, setTags] = useState([]);
   const [mainCategories, setMainCategories] = useState([]);
   const [pageData, setPageData] = useState({});
   const [gameUrl, setGameUrl] = useState("");
+  const [txtSearch, setTxtSearch] = useState("");
+   const [searchDelayTimer, setSearchDelayTimer] = useState();
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [shouldShowGameModal, setShouldShowGameModal] = useState(false);
   const [isGameLoadingError, setIsGameLoadingError] = useState(false);
   const refGameModal = useRef();
-  const { isSlotsOnly } = useOutletContext();
+  const { isSlotsOnly, isMobile } = useOutletContext();
 
   useEffect(() => {
     selectedGameId = null;
@@ -55,13 +65,34 @@ const Home = () => {
     window.scrollTo(0, 0);
   }, [location.pathname]);
 
+  useEffect(() => {
+    const isSlotsOnlyFalse = isSlotsOnly === false || isSlotsOnly === "false";
+    let tmpTags = isSlotsOnlyFalse
+      ? [
+        { name: "Lobby", code: "home", image: ImgCategoryBonus },
+        { name: "Hot", code: "hot", image: ImgCategoryPopular },
+        { name: "Jokers", code: "joker", image: ImgCategoryBlackjack },
+        { name: "Juegos de crash", code: "arcade", image: ImgCategoryLive },
+        { name: "Megaways", code: "megaways", image: ImgCategorySlots },
+        { name: "Ruletas", code: "roulette", image: ImgCategoryRoulette },
+      ]
+      : [
+        { name: "Lobby", code: "home", image: ImgCategoryBonus },
+        { name: "Hot", code: "hot", image: ImgCategoryPopular },
+        { name: "Jokers", code: "joker", image: ImgCategoryBlackjack },
+        { name: "Megaways", code: "megaways", image: ImgCategorySlots },
+      ];
+
+    setTags(tmpTags);
+  }, [isSlotsOnly]);
+
   const getStatus = () => {
     callApi(contextData, "GET", "/get-status", callbackGetStatus, null);
   };
 
   const callbackGetStatus = (result) => {
     if (result.status === 500 || result.status === 422) {
-      
+
     } else {
       setTopGames(result.top_hot);
       setTopArcade(result.top_arcade);
@@ -79,7 +110,7 @@ const Home = () => {
 
   const callbackGetPage = (result) => {
     if (result.status === 500 || result.status === 422) {
-      
+
     } else {
       setCategories(result.data.categories);
       setPageData(result.data);
@@ -143,7 +174,7 @@ const Home = () => {
 
   const callbackFetchContent = (result) => {
     if (result.status === 500 || result.status === 422) {
-      
+
     } else {
       if (pageCurrent === 0) {
         configureImageSrc(result);
@@ -205,6 +236,66 @@ const Home = () => {
     setShowLoginModal(false);
   };
 
+  const search = (e) => {
+    let keyword = e.target.value;
+    setTxtSearch(keyword);
+    setIsExplicitSingleCategoryView(true);
+
+    if (navigator.userAgent.match(/Android|BlackBerry|iPhone|iPad|iPod|Opera Mini|IEMobile/i)) {
+      let keyword = e.target.value;
+      do_search(keyword);
+    } else {
+      if (
+        (e.keyCode >= 48 && e.keyCode <= 57) ||
+        (e.keyCode >= 65 && e.keyCode <= 90) ||
+        e.keyCode == 8 ||
+        e.keyCode == 46
+      ) {
+        do_search(keyword);
+      }
+    }
+
+    if (e.key === "Enter" || e.keyCode === 13 || e.key === "Escape" || e.keyCode === 27) {
+      searchRef.current?.blur();
+    }
+  };
+
+  const do_search = (keyword) => {
+    clearTimeout(searchDelayTimer);
+
+    if (keyword == "") {
+      return;
+    }
+
+    setGames([]);
+    setIsLoadingGames(true);
+
+    let pageSize = 30;
+
+    let searchDelayTimerTmp = setTimeout(function () {
+      callApi(
+        contextData,
+        "GET",
+        "/search-content?keyword=" + txtSearch + "&page_group_code=" + pageData.page_group_code + "&length=" + pageSize,
+        callbackSearch,
+        null
+      );
+    }, 1000);
+
+    setSearchDelayTimer(searchDelayTimerTmp);
+  };
+
+  const callbackSearch = (result) => {
+    if (result.status === 500 || result.status === 422) {
+
+    } else {
+      configureImageSrc(result);
+      setGames(result.content);
+      pageCurrent = 0;
+    }
+    setIsLoadingGames(false);
+  };
+
   return (
     <>
       {showLoginModal && (
@@ -224,6 +315,13 @@ const Home = () => {
           launchInNewTab={() => launchGame(null, null, "tab")}
           ref={refGameModal}
           onClose={closeGameModal}
+          isMobile={isMobile}
+          categories={categories}
+          tags={tags}
+          txtSearch={txtSearch}
+          setTxtSearch={setTxtSearch}
+          search={search}
+          getPage={getPage}
         />
       ) : (
         <>
@@ -233,20 +331,20 @@ const Home = () => {
             <TopSlideshow games={topCasino} name="casino" title="Casino" />
           </div>
           <ArcadeSlideshow games={topArcade} name="arcade" title="Top Juegos de crash" />
-          <TopGames games={topGames} text={isLogin ? "Jugar" : "Ingresar"} title="Populares" onGameClick={(game) => {
+          <TopGames games={topGames} text={isLogin ? "Jugar" : "Ingresar"} title="Populares" link="/casino" onGameClick={(game) => {
             if (isLogin) {
               launchGame(game, "slot", "tab");
             } else {
               setShowLoginModal(true);
             }
-          }}/>
-          <TopGames games={topLiveCasino} text={isLogin ? "Jugar" : "Ingresar"} title="LiveCasino" onGameClick={(game) => {
+          }} />
+          <TopGames games={topLiveCasino} text={isLogin ? "Jugar" : "Ingresar"} title="LiveCasino" link="/live-casino" onGameClick={(game) => {
             if (isLogin) {
               launchGame(game, "slot", "tab");
             } else {
               setShowLoginModal(true);
             }
-          }}/>
+          }} />
         </>
       )}
 

@@ -4,6 +4,8 @@ import ProviderContainer from "../ProviderContainer";
 import SearchInput from "../SearchInput";
 import LoadApi from "../Loading/LoadApi";
 
+import IconFavorite from "/src/assets/svg/favorites.svg";
+
 const GameModal = (props) => {
   const [url, setUrl] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -44,13 +46,18 @@ const GameModal = (props) => {
     <>
       <div className="casino game">
         <div className="casino-menu">
-          <SearchInput
-            txtSearch={props.txtSearch}
-            setTxtSearch={props.setTxtSearch}
-            searchRef={searchRef}
-            search={props.search}
-            isMobile={props.isMobile}
-          />
+          <div className="casino-menu__search">
+            <SearchInput
+              txtSearch={props.txtSearch}
+              setTxtSearch={props.setTxtSearch}
+              searchRef={searchRef}
+              search={props.search}
+              isMobile={props.isMobile}
+            />
+            <a href="#" className="favorites">
+              <div><img src={IconFavorite} alt="" /></div>
+            </a>
+          </div>
           <div className="casino-menu__shadow">
             <div className="casino-menu__scroll">
               {
@@ -111,7 +118,7 @@ const GameModal = (props) => {
                 </svg>
               </a>
             </div>
-            <div>Slotham City</div>
+            <div>{props.gameName}</div>
             <div>
               <a onClick={() => props.onClose && props.onClose()} className="favorites router-link-active">
                 <svg
