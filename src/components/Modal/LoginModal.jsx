@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { NavigationContext } from "../Layout/NavigationContext";
 import { AppContext } from "../../AppContext";
 import { callApi } from "../../utils/Utils";
@@ -9,6 +9,20 @@ const LoginModal = ({ isOpen, onClose, onLoginSuccess }) => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [errorMsg, setErrorMsg] = useState("");
+    const [notificationsWidth, setNotificationsWidth] = useState("100%");
+
+    useEffect(() => {
+        if (!errorMsg) return;
+
+        setNotificationsWidth("100%");
+        const startTimer = setTimeout(() => setNotificationsWidth("0%"), 50);
+        const hideTimer = setTimeout(() => setErrorMsg(""), 5000);
+
+        return () => {
+            clearTimeout(startTimer);
+            clearTimeout(hideTimer);
+        };
+    }, [errorMsg]);
 
     const handleSubmit = (event) => {
         const form = event.currentTarget;
@@ -59,11 +73,6 @@ const LoginModal = ({ isOpen, onClose, onLoginSuccess }) => {
                 </div>
                 <div className="modal_content">
                     <form method="post" id="auth_form" onSubmit={handleSubmit}>
-                        {
-                            errorMsg !== "" && <div className="alert alert-danger">
-                                {errorMsg}
-                            </div>
-                        }
                         <div className="input-block">
                             <input
                                 className="form-control"
@@ -91,7 +100,16 @@ const LoginModal = ({ isOpen, onClose, onLoginSuccess }) => {
                             />
                             <span className="placeholder">Contraseña</span>
                         </div>
-                        <div className="notifications"></div>
+                        {
+                            errorMsg !== "" && (
+                                <div className="notificationsMessage notifications_error" onClick={() => setErrorMsg("")}>
+                                    <div className="notificationsText">{errorMsg}</div>
+                                    <div className="notificationsIndicator">
+                                        <div style={{ overflow: 'hidden', width: notificationsWidth, transition: 'width 5s linear' }}></div>
+                                    </div>
+                                </div>
+                            )
+                        }
                         <button type="submit">Ingresar</button>
                     </form>
                 </div>
