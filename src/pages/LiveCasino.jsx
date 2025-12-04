@@ -13,6 +13,8 @@ import SearchInput from "../components/SearchInput";
 import LoginModal from "../components/Modal/LoginModal";
 import "animate.css";
 
+import IconFavorite from "/src/assets/svg/favorites.svg";
+
 let selectedGameId = null;
 let selectedGameType = null;
 let selectedGameLauncher = null;
@@ -34,7 +36,6 @@ const LiveCasino = () => {
   const originalCategoriesRef = useRef([]);
   const [activeCategory, setActiveCategory] = useState({});
   const [selectedProvider, setSelectedProvider] = useState(null);
-  const [isExplicitSingleCategoryView, setIsExplicitSingleCategoryView] = useState(false);
   const [pageData, setPageData] = useState({});
   const [gameUrl, setGameUrl] = useState("");
   const [isLoadingGames, setIsLoadingGames] = useState(false);
@@ -52,7 +53,8 @@ const LiveCasino = () => {
   const hasFetchedContentRef = useRef(false);
   const prevHashRef = useRef("");
   const pendingCategoryFetchesRef = useRef(0);
-  const lastLoadedCategoryRef = useRef(null); // Track last loaded category
+  const lastLoadedCategoryRef = useRef(null);
+  const [showMobileSidebar, setShowMobileSidebar] = useState(false);
 
   useEffect(() => {
     selectedGameId = null;
@@ -395,7 +397,6 @@ const LiveCasino = () => {
       setSelectedProvider(null);
       setActiveCategory(categories[0]); // Lobby
       setSelectedCategoryIndex(0);
-      setIsExplicitSingleCategoryView(false);
       setIsSingleCategoryView(false);
       setGames([]);
       setFirstFiveCategoriesGames([]);
@@ -415,7 +416,6 @@ const LiveCasino = () => {
     setSelectedProvider(provider);
     setActiveCategory(provider);
     setSelectedCategoryIndex(-1);
-    setIsExplicitSingleCategoryView(true);
     setIsSingleCategoryView(true);
     setTxtSearch("");
 
@@ -522,13 +522,18 @@ const LiveCasino = () => {
         <>
           <div className="casino">
             <div className="casino-menu">
-              <SearchInput
-                txtSearch={txtSearch}
-                setTxtSearch={setTxtSearch}
-                searchRef={searchRef}
-                search={search}
-                isMobile={isMobile}
-              />
+              <div className="casino-menu__search">
+                <SearchInput
+                  txtSearch={txtSearch}
+                  setTxtSearch={setTxtSearch}
+                  searchRef={searchRef}
+                  search={search}
+                  isMobile={isMobile}
+                />
+                <a href="#" className="favorites">
+                  <div><img src={IconFavorite} alt="" /></div>
+                </a>
+              </div>
               <div className="casino-menu__shadow">
                 <div className="casino-menu__scroll">
                   <div className="casino-menu-block">
@@ -547,6 +552,58 @@ const LiveCasino = () => {
             </div>
             <div className="casino_content">
               <Slideshow />
+              <div className="casino_mobile_nav">
+                <div className="casino_mobile_nav_btns">
+                  <div>
+                    <a href="#"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setShowMobileSidebar(true);
+                      }}
+                      className="sidebar"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlnsXlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs" width="19" height="19" x="0" y="0" viewBox="0 0 24 24" xmlSpace="preserve">
+                        <g transform="matrix(1.5,0,0,1.5,-6.000000000000002,-6.000000000000002)">
+                          <path fill="#ffffff" fillRule="evenodd" d="M19 7a1 1 0 0 0-1-1H6a1 1 0 0 0 0 2h12a1 1 0 0 0 1-1zm0 5a1 1 0 0 0-1-1h-8a1 1 0 1 0 0 2h8a1 1 0 0 0 1-1zm-1 4a1 1 0 1 1 0 2H6a1 1 0 1 1 0-2z" clipRule="evenodd"></path>
+                        </g>
+                      </svg>
+                      Categorías
+                    </a>
+                  </div>
+                  <div>
+                    <a href="#" className="favorites">
+                      <div><img src={IconFavorite} /></div>
+                    </a>
+                  </div>
+                </div>
+                <div>
+                  <div className="casino-menu__search">
+                    <SearchInput
+                      txtSearch={txtSearch}
+                      setTxtSearch={setTxtSearch}
+                      searchRef={searchRef}
+                      search={search}
+                      isMobile={isMobile}
+                    />
+                  </div>
+                </div>
+              </div>
+              {showMobileSidebar && <div className="backblur" onClick={() => setShowMobileSidebar(false)}></div>}
+              <aside id="casino_mobile_side" data-side="left" className={showMobileSidebar ? "side_active" : ""}>
+                <div className="casino-menu">
+                  <div className="casino-menu__scroll">
+                    <div className="casino-menu-block">
+                      <div className="casino-menu-block__title">Proveedores</div>
+                      <ProviderContainer
+                        categories={categories}
+                        selectedProvider={selectedProvider}
+                        setSelectedProvider={setSelectedProvider}
+                        onProviderSelect={handleProviderSelect}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </aside>
               <div className="casino-games-container">
                 {(txtSearch !== "" || selectedProvider || isSingleCategoryView) ? (
                   <>

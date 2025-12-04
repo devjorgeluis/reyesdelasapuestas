@@ -231,7 +231,7 @@ const ProfileHistory = () => {
             </div>
             <div className="profile__right">
                 <div className="profile__content">
-                    <div className="history page">
+                    <div className="history">
                         <div className="page__title">
                             <div className="tab_selector">
                                 <a className={`${activeTab === "wallet" ? "act" : ""}`} onClick={() => handleTabChange('wallet')}>Retiros</a>

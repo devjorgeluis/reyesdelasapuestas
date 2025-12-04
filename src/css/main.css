@@ -2070,36 +2070,36 @@ div.input-block select:focus+span.placeholder {
 
 
 
-side {
+aside {
     background: var(--mobile_sidebar_bg2);
     color: var(--mobile_sidebar_color2);
     padding-top: max(constant(safe-area-inset-top), 0px);
     padding-top: max(env(safe-area-inset-top), 0px);
 }
 
-side[data-side=right]>div {
+aside[data-side=right]>div {
     margin: 0;
     width: 100%;
 }
 
-side>div {
+aside>div {
     display: flex;
     flex-direction: column;
 }
 
-side .dropdown {
+aside .dropdown {
     margin-top: auto;
     margin-bottom: 20px;
     margin-left: auto;
     margin-right: 20px;
 }
 
-side .dropdown-content {
+aside .dropdown-content {
     padding-bottom: 7px;
     bottom: 25px;
 }
 
-side .menu_balance {
+aside .menu_balance {
     margin: 0;
     padding: 10px;
     margin-bottom: 5px;
@@ -2109,12 +2109,12 @@ side .menu_balance {
     text-align: left;
 }
 
-side .menu_balance>div:last-child {
+aside .menu_balance>div:last-child {
     align-items: center;
     justify-content: center;
 }
 
-side .menu_bonus {
+aside .menu_bonus {
     margin: 0;
     padding: 10px;
     margin-bottom: 5px;
@@ -2124,12 +2124,12 @@ side .menu_bonus {
     text-align: left;
 }
 
-side .menu_bonus>div:last-child {
+aside .menu_bonus>div:last-child {
     align-items: center;
     justify-content: center;
 }
 
-side .menu_wager {
+aside .menu_wager {
     margin: 0;
     padding: 10px;
     margin-bottom: 5px;
@@ -2139,7 +2139,7 @@ side .menu_wager {
     text-align: left;
 }
 
-side .menu_wager>div:last-child {
+aside .menu_wager>div:last-child {
     align-items: center;
     justify-content: center;
 }
@@ -2378,12 +2378,12 @@ side .menu_wager>div:last-child {
     font-size: 15px;
 }
 
-side .menu-button {
+aside .menu-button {
     width: 100%;
     margin-bottom: 10px;
 }
 
-side .side_menu_btns {
+aside .side_menu_btns {
     margin: 25px 0;
     padding: 5px 15px 5px 23px;
 }
@@ -4776,4 +4776,8 @@ side .side_menu_btns {
 
 .betcore-container .dropdown-container .dropdown-menu .dropdown-menu__row.active {
     filter: brightness(0.9);
+}
+
+.d-none {
+    display: none;
 }

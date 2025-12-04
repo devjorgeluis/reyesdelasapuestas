@@ -1,5 +1,5 @@
 import { useContext, useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, useOutletContext } from "react-router-dom";
 import { AppContext } from "../../AppContext";
 import { callApi } from "../../utils/Utils";
 import '../../css/profile.css';
@@ -8,6 +8,7 @@ const Profile = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const { contextData } = useContext(AppContext);
+    const { isMobile } = useOutletContext();
 
     useEffect(() => {
         if (!contextData?.session) {
@@ -110,9 +111,9 @@ const Profile = () => {
                 </div>
             </div>
 
-            <div className="profile__right">
+            <div className={`profile__right ${isMobile ? '' : ''}`}>
                 <div className="profile__content">
-                    <div className="settings page">
+                    <div className="settings">
                         <div className="page__title">
                             <a href="/profile" className="page__back">
                                 <svg

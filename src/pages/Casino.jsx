@@ -28,7 +28,6 @@ const Casino = () => {
   const { contextData } = useContext(AppContext);
   const { isLogin } = useContext(LayoutContext);
   const { setShowFullDivLoading } = useContext(NavigationContext);
-  const navigate = useNavigate();
   const [selectedCategoryIndex, setSelectedCategoryIndex] = useState(0);
   const [tags, setTags] = useState([]);
   const [games, setGames] = useState([]);
@@ -56,7 +55,6 @@ const Casino = () => {
   const searchRef = useRef(null);
   const { isSlotsOnly, isMobile } = useOutletContext();
 
-  const lastLoadedTagRef = useRef("");
   const pendingCategoryFetchesRef = useRef(0);
 
   useEffect(() => {
@@ -472,7 +470,7 @@ const Casino = () => {
                 />
                 <a href="#" className="favorites">
                   <div><img src={IconFavorite} alt="" /></div>
-              </a>
+                </a>
               </div>
               <div className="casino-menu__shadow">
                 <div className="casino-menu__scroll">

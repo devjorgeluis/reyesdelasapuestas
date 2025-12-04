@@ -149,15 +149,24 @@
 @media (max-width: 1000px) {
     .page__title {
         font-size: 22px;
+        display: none;
     }
 
     .page__back {
         display: block;
     }
 
-    .profile__left {
-        display: none;
+    .profile {
+        display: block;
     }
+
+    .profile__menu{
+        padding: 0;
+    }
+
+    /* .profile__left {
+        display: none;
+    } */
 
     .profile__block {
         padding: 0 15px;

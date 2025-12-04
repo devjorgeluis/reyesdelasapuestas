@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext, useRef } from "react";
-import { useNavigate, useLocation, useOutletContext } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { AppContext } from "../../AppContext";
 import { callApi } from "../../utils/Utils";
 import CategoryContainer from "../CategoryContainer";
@@ -16,12 +16,9 @@ const Sidebar = ({ isSlotsOnly, isMobile }) => {
     const [selectedCategoryIndex, setSelectedCategoryIndex] = useState(0);
     const [selectedProvider, setSelectedProvider] = useState(null);
     const [activeCategory, setActiveCategory] = useState({});
-    const [isSingleCategoryView, setIsSingleCategoryView] = useState(false);
-    const [isExplicitSingleCategoryView, setIsExplicitSingleCategoryView] = useState(false);
     const [txtSearch, setTxtSearch] = useState("");
     const [searchDelayTimer, setSearchDelayTimer] = useState();
     const searchRef = useRef(null);
-    const [isLoadingGames, setIsLoadingGames] = useState(false);
 
     const handleCategorySelect = (category) => {
         setActiveCategory(category);
@@ -86,7 +83,6 @@ const Sidebar = ({ isSlotsOnly, isMobile }) => {
     };
 
     const getPage = (page) => {
-        setIsLoadingGames(true);
         callApi(contextData, "GET", "/get-page?page=" + page, (result) => callbackGetPage(result, page), null);
     };
 
@@ -140,8 +136,6 @@ const Sidebar = ({ isSlotsOnly, isMobile }) => {
             return;
         }
 
-        setIsLoadingGames(true);
-
         let pageSize = 30;
 
         let searchDelayTimerTmp = setTimeout(function () {
@@ -164,7 +158,6 @@ const Sidebar = ({ isSlotsOnly, isMobile }) => {
             configureImageSrc(result);
             pageCurrent = 0;
         }
-        setIsLoadingGames(false);
     };
 
     return (

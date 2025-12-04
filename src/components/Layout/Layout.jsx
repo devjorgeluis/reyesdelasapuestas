@@ -9,7 +9,7 @@ import Footer from "./Footer";
 import LoginModal from "../Modal/LoginModal";
 import { NavigationContext } from "./NavigationContext";
 import ChatButton from "../ChatButton";
-import MobileSearch from "../MobileSearch";
+import FullDivLoading from "../Loading/FullDivLoading";
 
 const Layout = () => {
     const { contextData } = useContext(AppContext);
@@ -21,8 +21,6 @@ const Layout = () => {
     const [isSlotsOnly, setIsSlotsOnly] = useState("");
     const [showFullDivLoading, setShowFullDivLoading] = useState(false);
     const [isSidebarExpanded, setIsSidebarExpanded] = useState(true);
-    const [isSmallScreen, setIsSmallScreen] = useState(false);
-    const [showMobileSearch, setShowMobileSearch] = useState(false);
     const navigate = useNavigate();
 
     const location = useLocation();
@@ -51,12 +49,7 @@ const Layout = () => {
             return window.innerWidth < 1024;
         };
 
-        const checkIsSmallScreen = () => {
-            return window.innerWidth < 1024;
-        };
-
         setIsMobile(checkIsMobile());
-        setIsSmallScreen(checkIsSmallScreen());
 
         if (checkShouldCollapseSidebar()) {
             setIsSidebarExpanded(false);
@@ -64,7 +57,6 @@ const Layout = () => {
 
         const handleResize = () => {
             setIsMobile(checkIsMobile());
-            setIsSmallScreen(checkIsSmallScreen());
 
             if (checkShouldCollapseSidebar()) {
                 setIsSidebarExpanded(false);
@@ -140,9 +132,7 @@ const Layout = () => {
         handleLogoutClick,
         refreshBalance,
         isSidebarExpanded,
-        toggleSidebar,
-        showMobileSearch,
-        setShowMobileSearch
+        toggleSidebar
     };
 
     return (
@@ -152,8 +142,7 @@ const Layout = () => {
             >
                 <>
                     {!isSportsPage && <ChatButton />}
-                    {/* <FullDivLoading show={showFullDivLoading} />
-                    {!isSportsPage && <ChatButton />} */}
+                    <FullDivLoading show={showFullDivLoading} />
                     {showLoginModal && (
                         <LoginModal
                             isMobile={isMobile}
@@ -169,21 +158,17 @@ const Layout = () => {
                             isSlotsOnly={isSlotsOnly}
                             userBalance={userBalance}
                             handleLoginClick={handleLoginClick}
-                            handleLogoutClick={handleLogoutClick}
                         />
                         {/* <Sidebar isSlotsOnly={isSlotsOnly} isMobile={isMobile} /> */}
                         <main className="content">
                             <Outlet context={{ isSlotsOnly, isMobile }} />
                         </main>
-                        <Footer isSlotsOnly={isSlotsOnly} />
-                        {showMobileSearch 
-                        && isMobile && (
-                            <MobileSearch
-                                isLogin={isLogin}
-                                isMobile={isMobile}
-                                onClose={() => setShowMobileSearch(false)}
-                            />
-                        )}
+                        {!isSportsPage && <Footer
+                            isLogin={isLogin}
+                            isSlotsOnly={isSlotsOnly}
+                            userBalance={userBalance}
+                            handleLoginClick={handleLoginClick}
+                        />}
                     </div>
                 </>
             </NavigationContext.Provider>
