@@ -69,7 +69,7 @@ const LoginModal = ({ isOpen, onClose, onLoginSuccess }) => {
                                 className="form-control"
                                 type="text"
                                 name="username"
-                                placeholder="Nombre de usuario"
+                                placeholder=""
                                 autoComplete="username"
                                 value={username}
                                 onChange={(e) => setUsername(e.target.value)}
@@ -83,7 +83,7 @@ const LoginModal = ({ isOpen, onClose, onLoginSuccess }) => {
                                 className="form-control"
                                 type="password"
                                 name="password"
-                                placeholder="Contraseña"
+                                placeholder=""
                                 autoComplete="password"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
