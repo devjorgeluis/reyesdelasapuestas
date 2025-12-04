@@ -25,19 +25,14 @@ const SearchInput = ({
     };
 
     return (
-        <div className="casino-menu__search">
-            <input
-                ref={searchRef}
-                placeholder="Buscar en..."
-                value={txtSearch}
-                onChange={handleChange}
-                onKeyUp={search}
-                onFocus={handleFocus}
-            />
-            <a href="#" className="favorites">
-                <div><img src={IconFavorite} alt="" /></div>
-            </a>
-        </div>
+        <input
+            ref={searchRef}
+            placeholder="Buscar en..."
+            value={txtSearch}
+            onChange={handleChange}
+            onKeyUp={search}
+            onFocus={handleFocus}
+        />
     );
 };
 

@@ -97,13 +97,13 @@ const Header = ({
                     <img src={ImgLogo} alt="" />
                 </a>
                 <div className="header__space"></div>
-                <button className="menu-button menu-button--auth">Ingresar</button>
+                <button className="menu-button menu-button--auth" onClick={handleLoginClick}>Ingresar</button>
                 {/* <button onClick="open_reg()" className="menu-button" style="display: none;">Registrarse</button> */}
             </div>
             <aside id="side_menu" data-side="right">
                 <div>
                     <div className="side_menu_btns">
-                        <button className="menu-button menu-button--auth">Ingresar</button>
+                        <button className="menu-button menu-button--auth" onClick={handleLoginClick}>Ingresar</button>
                         {/* <button onClick="open_reg()" className="menu-button" style="display: none;">Registrarse</button> */}
                     </div>
                     <div className="side_menu_links">
@@ -120,7 +120,7 @@ const Header = ({
             </aside>
             <div className="foot_menu mobile">
                 <div>
-                    <a href="/sport/" className="">
+                    <a href="/sports" className="">
                         <div><img src={IconLine} alt="" /></div>
                         <div>APUESTAS DEPORTIVAS</div>
                     </a>
@@ -132,7 +132,7 @@ const Header = ({
                     </a>
                 </div>
                 <div>
-                    <a className="for_auth">
+                    <a className="for_auth" onClick={handleLoginClick}>
                         <div><img src={IconDeposit} alt="" /></div>
                         <div>Recargar</div>
                     </a>
