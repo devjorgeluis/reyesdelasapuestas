@@ -600,6 +600,7 @@ const Casino = () => {
                     <div className="casino-games-container">
                       <div className="casino-games-container__head">
                         <div className="casino-games-container__title">
+                          <img src={activeCategory.image_local != null && activeCategory.image_local !== "" ? contextData.cdnUrl + activeCategory.image_local : activeCategory.image_url} loading="lazy" />
                           <span>{txtSearch !== "" ? "Resultados de la búsqueda" : activeCategory.name}</span>
                         </div>
                       </div>
@@ -642,6 +643,7 @@ const Casino = () => {
                             <div className="casino-games-container" key={categoryKey}>
                               <div className="casino-games-container__head">
                                 <div className="casino-games-container__title">
+                                  <img src={entry?.category.image_local != null && entry?.category.image_local !== "" ? contextData.cdnUrl + entry?.category.image_local : entry?.category.image_url} loading="lazy" />
                                   {entry?.category?.name || ''}
                                 </div>
                                 <a className="casino-games-container__more" onClick={() => loadMoreContent(entry.category, catIndex)}>Todos</a>
@@ -680,19 +682,6 @@ const Casino = () => {
             </div>
           </div>
         </>
-      )}
-
-      {isGameLoadingError && (
-        <div className="container">
-          <div className="row">
-            <div className="col-md-6 error-loading-game">
-              <div className="alert alert-warning">Error al cargar el juego. Inténtalo de nuevo o ponte en contacto con el equipo de soporte.</div>
-              <a className="btn btn-primary" onClick={() => window.location.reload()}>
-                Volver a la página principal
-              </a>
-            </div>
-          </div>
-        </div>
       )}
     </>
   );

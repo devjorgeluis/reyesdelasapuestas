@@ -347,17 +347,6 @@ const Home = () => {
           }} />
         </>
       )}
-
-      {
-        isGameLoadingError && <div className="container">
-          <div className="row">
-            <div className="col-md-6 error-loading-game">
-              <div className="alert alert-warning">Error al cargar el juego. Inténtalo de nuevo o ponte en contacto con el equipo de soporte.</div>
-              <a className="btn btn-primary" onClick={() => window.location.reload()}>Volver a la página principal</a>
-            </div>
-          </div>
-        </div>
-      }
     </>
   );
 };
