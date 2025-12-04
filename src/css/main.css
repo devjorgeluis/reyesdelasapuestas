@@ -4267,6 +4267,7 @@ aside .side_menu_btns {
     color: var(--footer_link_color);
     text-decoration: none;
     line-height: 23px;
+    cursor: pointer;
 }
 
 .footer_content>div:nth-child(2) {
@@ -4780,4 +4781,20 @@ aside .side_menu_btns {
 
 .d-none {
     display: none;
+}
+
+@media(max-width: 768px) {
+    .betcore-container .left-panel,
+    .betcore-container .right-panel {
+        display: none;
+    }
+
+    .betcore-container .history-container {
+        padding: 0;
+        overflow: auto;
+    }
+
+    .betcore-container .history-container .table__header .header__empty {
+        min-width: 10rem;
+    }
 }

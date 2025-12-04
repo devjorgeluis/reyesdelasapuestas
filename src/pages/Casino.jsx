@@ -15,6 +15,12 @@ import LoginModal from "../components/Modal/LoginModal";
 import "animate.css";
 
 import IconFavorite from "/src/assets/svg/favorites.svg";
+import ImgCategoryBonus from "/src/assets/img/category_bonus.png";
+import ImgCategoryPopular from "/src/assets/img/category_popular.png";
+import ImgCategoryBlackjack from "/src/assets/svg/category_blackjack.svg";
+import ImgCategoryLive from "/src/assets/img/category_live.png";
+import ImgCategorySlots from "/src/assets/img/category_slots.png";
+import ImgCategoryRoulette from "/src/assets/svg/category_roulette.svg";
 
 let selectedGameId = null;
 let selectedGameType = null;
@@ -89,18 +95,18 @@ const Casino = () => {
     const isSlotsOnlyFalse = isSlotsOnly === false || isSlotsOnly === "false";
     let tmpTags = isSlotsOnlyFalse
       ? [
-        { name: "Lobby", code: "home", image: "/src/assets/img/category_bonus.png" },
-        { name: "Hot", code: "hot", image: "/src/assets/img/category_popular.png" },
-        { name: "Jokers", code: "joker", image: "/src/assets/svg/category_blackjack.svg" },
-        { name: "Juegos de crash", code: "arcade", image: "/src/assets/img/category_live.png" },
-        { name: "Megaways", code: "megaways", image: "/src/assets/img/category_slots.png" },
-        { name: "Ruletas", code: "roulette", image: "/src/assets/svg/category_roulette.svg" },
+        { name: "Lobby", code: "home", image: ImgCategoryBonus },
+        { name: "Hot", code: "hot", image: ImgCategoryPopular },
+        { name: "Jokers", code: "joker", image: ImgCategoryBlackjack },
+        { name: "Juegos de crash", code: "arcade", image: ImgCategoryLive },
+        { name: "Megaways", code: "megaways", image: ImgCategorySlots },
+        { name: "Ruletas", code: "roulette", image: ImgCategoryRoulette },
       ]
       : [
-        { name: "Lobby", code: "home", image: "/src/assets/img/category_bonus.png" },
-        { name: "Hot", code: "hot", image: "/src/assets/img/category_popular.png" },
-        { name: "Jokers", code: "joker", image: "/src/assets/svg/category_blackjack.svg" },
-        { name: "Megaways", code: "megaways", image: "/src/assets/img/category_slots.png" },
+        { name: "Lobby", code: "home", image: ImgCategoryBonus },
+        { name: "Hot", code: "hot", image: ImgCategoryPopular },
+        { name: "Jokers", code: "joker", image: ImgCategoryBlackjack },
+        { name: "Megaways", code: "megaways", image: ImgCategorySlots },
       ];
 
     setTags(tmpTags);

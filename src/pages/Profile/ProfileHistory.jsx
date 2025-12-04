@@ -251,7 +251,7 @@ const ProfileHistory = () => {
                                     transactions.map((txn, index) => (
                                         <div className="history-row" key={index}>
                                             <div className="history-row__info">
-                                                <div class="history_tr_amount">
+                                                <div className="history_tr_amount">
                                                     <div>
                                                         <svg viewBox="0 0 24 24" width="21px" height="21px" xmlns="http://www.w3.org/2000/svg">
                                                             <path d="M12 10c3.976 0 8-1.374 8-4s-4.024-4-8-4-8 1.374-8 4 4.024 4 8 4z"></path>
@@ -262,14 +262,14 @@ const ProfileHistory = () => {
                                                     </div>
                                                     <div>
                                                         <div>$ {formatBalance(txn.amount)}</div>
-                                                        <div class="history_tr_time">{formatDateDisplay(txn.created_at)}</div>
+                                                        <div className="history_tr_time">{formatDateDisplay(txn.created_at)}</div>
                                                     </div>
                                                 </div>
                                                 {
                                                     txn.type === 'add' ? (
-                                                        <div class="status status_1">Realizado</div>
+                                                        <div className="status status_1">Realizado</div>
                                                     ) : (
-                                                        <div class="status status_0">No pagado</div>
+                                                        <div className="status status_0">No pagado</div>
                                                     )
                                                 }
                                             </div>
@@ -278,7 +278,7 @@ const ProfileHistory = () => {
                                     transactions.map((txn, index) => (
                                         <div className="history-row" key={index}>
                                             <div className="history-row__info">
-                                                <div class="history_tr_amount">
+                                                <div className="history_tr_amount">
                                                     <div>
                                                         <svg viewBox="0 0 24 24" width="21px" height="21px" xmlns="http://www.w3.org/2000/svg">
                                                             <path d="M12 10c3.976 0 8-1.374 8-4s-4.024-4-8-4-8 1.374-8 4 4.024 4 8 4z"></path>
@@ -289,14 +289,14 @@ const ProfileHistory = () => {
                                                     </div>
                                                     <div>
                                                         <div>$ {formatBalance(txn.value)}</div>
-                                                        <div class="history_tr_time">{formatDateDisplay(txn.created_at)}</div>
+                                                        <div className="history_tr_time">{formatDateDisplay(txn.created_at)}</div>
                                                     </div>
                                                 </div>
                                                 {
                                                     txn.value > 0 ? (
-                                                        <div class="status status_1">Realizado</div>
+                                                        <div className="status status_1">Realizado</div>
                                                     ) : (
-                                                        <div class="status status_0">No pagado</div>
+                                                        <div className="status status_0">No pagado</div>
                                                     )
                                                 }
                                             </div>

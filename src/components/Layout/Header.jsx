@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import ImgLogo from "/src/assets/img/logo.png";
 
 const Header = ({
@@ -9,6 +9,13 @@ const Header = ({
     handleLoginClick
 }) => {
     const navigate = useNavigate();
+    const location = useLocation();
+
+    const getLinkClass = (path) => {
+        const current = location.pathname.replace(/\/$/, "");
+        const target = path.replace(/\/$/, "");
+        return `header__link ${current === target ? 'active' : ''}`.trim();
+    };
 
     return (
         <div className="header">
@@ -18,16 +25,16 @@ const Header = ({
                 </a>
                 {
                     !isMobile && <>
-                        <a href="#" onClick={() => navigate("/home")} className="header__link">Inicio</a>
+                        <a href="#" onClick={() => navigate("/home")} className={getLinkClass('/home')}>Inicio</a>
                         {isSlotsOnly === "false" &&
                             <>
-                                <a href="#" onClick={() => navigate("/sports")} className="header__link">APUESTAS DEPORTIVAS</a>
-                                <a href="#" onClick={() => navigate("/live-sports")} className="header__link">EN VIVO</a>
-                                <a href="#" onClick={() => navigate("/sports-history")} className="header__link">Mis apuestas</a>
+                                <a href="#" onClick={() => navigate("/sports")} className={getLinkClass('/sports')}>APUESTAS DEPORTIVAS</a>
+                                <a href="#" onClick={() => navigate("/live-sports")} className={getLinkClass('/live-sports')}>EN VIVO</a>
+                                <a href="#" onClick={() => navigate("/sports-history")} className={getLinkClass('/sports-history')}>Mis apuestas</a>
                             </>
                         }
-                        <a href="#" onClick={() => navigate("/casino")} className="header__link "><b><u>CASINO</u></b></a>
-                        {isSlotsOnly === "false" && <a href="#" onClick={() => navigate("/live-casino")} className="header__link ">Live-casino</a>}
+                        <a href="#" onClick={() => navigate("/casino")} className={getLinkClass('/casino')}><b><u>CASINO</u></b></a>
+                        {isSlotsOnly === "false" && <a href="#" onClick={() => navigate("/live-casino")} className={getLinkClass('/live-casino')}>Live-casino</a>}
                     </>
                 }
 
