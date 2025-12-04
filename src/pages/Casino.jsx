@@ -600,7 +600,7 @@ const Casino = () => {
                     <div className="casino-games-container">
                       <div className="casino-games-container__head">
                         <div className="casino-games-container__title">
-                          <span>Resultados de la búsqueda</span>
+                          <span>{txtSearch !== "" ? "Resultados de la búsqueda" : activeCategory.name}</span>
                         </div>
                       </div>
                       <div className="casino-games-container__list">
@@ -668,7 +668,7 @@ const Casino = () => {
                 }
                 <div className="mt-5">
                   {isLoadingGames && <LoadApi width={60} />}
-                  {txtSearch !== "" && !isLoadingGames && hasMoreGames && (
+                  {(isSingleCategoryView || txtSearch !== "" || selectedProvider) && !isLoadingGames && (
                     <div className="text-center">
                       <a className="btn btn-success load-more" onClick={loadMoreGames}>
                         Mostrar todo

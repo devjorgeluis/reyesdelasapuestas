@@ -196,6 +196,11 @@ const LiveCasino = () => {
           lastLoadedCategoryRef.current = null; // Reset on hash navigation
           return;
         }
+        // Check if it's a provider (if selectedProvider already matches this hash, skip re-fetching)
+        if (selectedProvider && selectedProvider.code === categoryCode) {
+          prevHashRef.current = hash;
+          return;
+        }
         const category = categories.find(cat => cat.code === categoryCode);
         if (category) {
           const categoryIndex = categories.indexOf(category);
@@ -203,7 +208,7 @@ const LiveCasino = () => {
           setActiveCategory(category);
           setSelectedCategoryIndex(categoryIndex);
           setIsSingleCategoryView(true);
-          fetchContent(category, category.id, category.table_name, categoryIndex, true);
+          fetchContent(category, category.id, category.table_name, categoryIndex, true, pageData.page_group_code, null);
           prevHashRef.current = hash;
           hasFetchedContentRef.current = true;
           lastLoadedCategoryRef.current = category.code;
@@ -225,7 +230,7 @@ const LiveCasino = () => {
           setActiveCategory(provider);
           setSelectedCategoryIndex(providerIndex);
           setIsSingleCategoryView(true);
-          fetchContent(provider, provider.id, provider.table_name, providerIndex, true);
+          fetchContent(provider, provider.id, provider.table_name, providerIndex, true, pageData.page_group_code, provider);
           prevHashRef.current = hash;
           hasFetchedContentRef.current = true;
           lastLoadedCategoryRef.current = provider.code;
@@ -250,6 +255,7 @@ const LiveCasino = () => {
       setSelectedCategoryIndex(0);
       setActiveCategory(category);
       if (resetCurrentPage) {
+        pageCurrent = 0;
         setGames([]);
       }
       fetchContent(category, category.id, category.table_name, categoryIndex, resetCurrentPage);
@@ -270,7 +276,7 @@ const LiveCasino = () => {
     lastLoadedCategoryRef.current = category.code;
   };
 
-  const fetchContent = (category, categoryId, tableName, categoryIndex, resetCurrentPage) => {
+  const fetchContent = (category, categoryId, tableName, categoryIndex, resetCurrentPage, pageGroupCode = null, providerToUse = null) => {
     if (!categoryId || !tableName) {
       if (category.code === "home") {
         const pageSize = 30;
@@ -315,8 +321,9 @@ const LiveCasino = () => {
       "&length=" +
       pageSize;
 
-    if (selectedProvider && selectedProvider.id) {
-      apiUrl += "&provider=" + selectedProvider.id;
+    const providerToAdd = providerToUse || selectedProvider;
+    if (providerToAdd && providerToAdd.id) {
+      apiUrl += "&provider=" + providerToAdd.id;
     }
 
     callApi(contextData, "GET", apiUrl, callbackFetchContent, null);
@@ -419,7 +426,8 @@ const LiveCasino = () => {
     setIsSingleCategoryView(true);
     setTxtSearch("");
 
-    fetchContent(provider, provider.id, provider.table_name, index, true);
+    fetchContent(provider, provider.id, provider.table_name, index, true, pageData.page_group_code, provider);
+    lastLoadedCategoryRef.current = provider.code;
 
     if (isMobile) {
       setMobileShowMore(true);
@@ -539,6 +547,19 @@ const LiveCasino = () => {
                   <div className="casino-menu-block">
                     <div className="casino-menu-block__title">Proveedores</div>
                     <div className="casino-menu-block__content">
+                      <a 
+                        href="#home" 
+                        onClick={(e) => {
+                          e.preventDefault();
+                          handleProviderSelect(null);
+                        }}
+                        className={selectedProvider === null && !isSingleCategoryView ? "router-link-exact-active router-link-active" : ""}
+                      >
+                        <div onClick={() => handleProviderSelect(null)}>
+                          <div style={{ backgroundImage: "none", visibility: "hidden" }}></div>
+                          <div>Lobby</div>
+                        </div>
+                      </a>
                       <ProviderContainer
                         categories={categories}
                         selectedProvider={selectedProvider}
@@ -594,17 +615,42 @@ const LiveCasino = () => {
                   <div className="casino-menu__scroll">
                     <div className="casino-menu-block">
                       <div className="casino-menu-block__title">Proveedores</div>
-                      <ProviderContainer
-                        categories={categories}
-                        selectedProvider={selectedProvider}
-                        setSelectedProvider={setSelectedProvider}
-                        onProviderSelect={handleProviderSelect}
-                      />
+                      <div className="casino-menu-block__content">
+                        <a 
+                          href="#home" 
+                          onClick={(e) => {
+                            e.preventDefault();
+                            handleProviderSelect(null);
+                            setShowMobileSidebar(false);
+                          }}
+                          className={selectedProvider === null && !isSingleCategoryView ? "router-link-exact-active router-link-active" : ""}
+                        >
+                          <div onClick={() => handleProviderSelect(null)}>
+                            <div style={{ backgroundImage: "none", visibility: "hidden" }}></div>
+                            <div>Lobby</div>
+                          </div>
+                        </a>
+                        <ProviderContainer
+                          categories={categories}
+                          selectedProvider={selectedProvider}
+                          setSelectedProvider={setSelectedProvider}
+                          onProviderSelect={handleProviderSelect}
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
               </aside>
               <div className="casino-games-container">
+                {
+                  activeCategory?.name !== "Lobby" && (
+                    <div className="casino-games-container__head">
+                      <div className="casino-games-container__title">
+                        <span>{txtSearch !== "" ? "Resultados de la búsqueda" : activeCategory?.name}</span>
+                      </div>
+                    </div>
+                  )
+                }
                 {(txtSearch !== "" || selectedProvider || isSingleCategoryView) ? (
                   <>
                     <div className="casino-games-container__list">

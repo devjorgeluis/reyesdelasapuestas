@@ -22,6 +22,7 @@ const CategoryContainer = (props) => {
           name={category.name}
           code={category.code}
           image={category.image}
+          count={category.element_count}
           active={
             props.selectedProvider === null &&
             props.selectedCategoryIndex === index

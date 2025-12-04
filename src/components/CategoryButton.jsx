@@ -9,6 +9,7 @@ const CategoryButton = (props) => {
       <div onClick={props.onClick}>
         <div style={{ backgroundImage: `url(${props.image})` }}></div>
         <div>{props.name}</div>
+        <div>{props.count}</div>
       </div>
     </a>
   );

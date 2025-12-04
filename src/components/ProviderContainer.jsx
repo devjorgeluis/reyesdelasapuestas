@@ -46,9 +46,13 @@ const ProviderContainer = ({
                                         }}
                                     />
                                     <div className="provider-name">{provider.name}</div>
+                                    <div>{provider.element_count}</div>
                                 </>
                             ) : (
-                                <div className="provider-name">{provider.name}</div>
+                                <>
+                                    <div className="provider-name">{provider.name}</div>
+                                    <div>{provider.element_count}</div>
+                                </>
                             )}
                         </div>
                     </a>
