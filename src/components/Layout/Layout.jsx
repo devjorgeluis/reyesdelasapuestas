@@ -37,10 +37,10 @@ const Layout = () => {
                 const parsed = parseFloat(contextData.session.user.balance);
                 setUserBalance(Number.isFinite(parsed) ? parsed : 0);
             }
+
+            refreshBalance();
         }
         getStatus();
-
-        refreshBalance();
     }, [contextData.session]);
 
     useEffect(() => {
