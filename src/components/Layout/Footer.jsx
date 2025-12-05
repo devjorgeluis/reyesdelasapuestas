@@ -79,7 +79,7 @@ const Footer = ({ isLogin, isSlotsOnly, userBalance, handleLoginClick }) => {
                         isLogin ? <div className="side_menu_user">
                             <div className="menu_balance" onClick={() => navigate("/profile")}>
                                 <div className="upd_symbol">$</div>
-                                <div className="upd_balance">{parseFloat(userBalance).toFixed(2)}</div>
+                                <div className="upd_balance">{Number.isFinite(Number(userBalance)) ? Number(userBalance).toFixed(2) : "0.00"}</div>
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" width="48" height="48" strokeWidth="2">
                                     <path d="M6 9l6 6l6 -6"></path>
                                 </svg>

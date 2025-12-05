@@ -16,7 +16,7 @@ const Layout = () => {
     const [selectedPage, setSelectedPage] = useState("lobby");
     const [isLogin, setIsLogin] = useState(contextData.session !== null);
     const [isMobile, setIsMobile] = useState(false);
-    const [userBalance, setUserBalance] = useState("");
+    const [userBalance, setUserBalance] = useState(0);
     const [showLoginModal, setShowLoginModal] = useState(false);
     const [isSlotsOnly, setIsSlotsOnly] = useState("");
     const [showFullDivLoading, setShowFullDivLoading] = useState(false);
@@ -34,10 +34,13 @@ const Layout = () => {
         if (contextData.session != null) {
             setIsLogin(true);
             if (contextData.session.user && contextData.session.user.balance) {
-                setUserBalance(contextData.session.user.balance);
+                const parsed = parseFloat(contextData.session.user.balance);
+                setUserBalance(Number.isFinite(parsed) ? parsed : 0);
             }
         }
         getStatus();
+
+        refreshBalance();
     }, [contextData.session]);
 
     useEffect(() => {
@@ -71,12 +74,14 @@ const Layout = () => {
     }, []);
 
     const refreshBalance = () => {
-        setUserBalance("");
+        setUserBalance(0);
         callApi(contextData, "GET", "/get-user-balance", callbackRefreshBalance, null);
     };
 
     const callbackRefreshBalance = (result) => {
-        setUserBalance(result && result.balance);
+        const parsed = result && result.balance ? parseFloat(result.balance) : 0;
+        setUserBalance(Number.isFinite(parsed) ? parsed : 0);
+        console.log(result && result.balance);
     };
 
     const getStatus = () => {
@@ -111,7 +116,8 @@ const Layout = () => {
     };
 
     const handleLoginSuccess = (balance) => {
-        setUserBalance(balance);
+        const parsed = balance ? parseFloat(balance) : 0;
+        setUserBalance(Number.isFinite(parsed) ? parsed : 0);
     };
 
     const handleLogoutClick = () => {
