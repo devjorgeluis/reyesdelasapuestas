@@ -38,6 +38,7 @@ const Home = () => {
   const [topCasino, setTopCasino] = useState([]);
   const [topLiveCasino, setTopLiveCasino] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [liveCategories, setLiveCategories] = useState([]);
   const [tags, setTags] = useState([]);
   const [pageData, setPageData] = useState({});
   const [gameUrl, setGameUrl] = useState("");
@@ -59,6 +60,7 @@ const Home = () => {
     setShouldShowGameModal(false);
 
     getPage("home");
+    getLivePage("livecasino");
     getStatus();
 
     window.scrollTo(0, 0);
@@ -107,6 +109,10 @@ const Home = () => {
     callApi(contextData, "GET", "/get-page?page=" + page, callbackGetPage, null);
   };
 
+  const getLivePage = (page) => {
+    callApi(contextData, "GET", "/get-page?page=" + page, callbackGetLivePage, null);
+  };
+
   const callbackGetPage = (result) => {
     if (result.status === 500 || result.status === 422) {
 
@@ -129,6 +135,14 @@ const Home = () => {
       pageCurrent = 0;
     }
   };
+
+  const callbackGetLivePage = (result) => {
+    if (result.status === 500 || result.status === 422) {
+      setIsLoadingGames(false);
+    } else {
+      setLiveCategories(result.data.categories);
+    }
+  }
 
   const loadMoreContent = () => {
     let item = categories[selectedCategoryIndex];
@@ -323,7 +337,7 @@ const Home = () => {
           <Slideshow />
           <div className="home-columns">
             <TopSlideshow games={categories} name="provider" title="Proveedores" />
-            <TopSlideshow games={tags} name="casino" title="Casino" />
+            <TopSlideshow games={liveCategories} name="casino" title="Casino EN VIVO" />
           </div>
           <ArcadeSlideshow games={topArcade} name="arcade" title="Top Juegos de crash" />
           <TopGames games={topGames} text={isLogin ? "Jugar" : "Ingresar"} title="Populares" link="/casino" onGameClick={(game) => {

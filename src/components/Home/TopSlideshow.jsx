@@ -52,7 +52,7 @@ const TopSlideshow = ({ games, name, title }) => {
                     ) :
                     <div className="home-block__slider">
                         <div
-                            className={`swiper-custom-nav left ${name}-navigate-next navigate-prev ${isBeginning ? 'swiper-button-disabled' : ''}`}
+                            className={`swiper-custom-nav left ${name}-navigate-prev navigate-prev ${isBeginning ? 'swiper-button-disabled' : ''}`}
                             aria-label="Previous slide"
                         >
                             <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="21" height="21" viewBox="0 0 492 492">
@@ -93,13 +93,11 @@ const TopSlideshow = ({ games, name, title }) => {
                                 <SwiperSlide key={game.id} className="swiper-slide">
                                     <a
                                         style={{ cursor: 'pointer' }}
-                                        onClick={name === "casino" ? () => navigate("/casino#" + game.code) : undefined}
+                                        onClick={name === "casino" ? () => navigate("/live-casino#" + game.code) : undefined}
                                     >
                                         <div>
                                             {
-                                                name === "casino" ? 
-                                                    <img src={game.image} /> 
-                                                : <img
+                                                <img
                                                     src={game.image_local != null && game.image_local !== "" ? contextData.cdnUrl + game.image_local : game.image_url}
                                                 />
                                             }
