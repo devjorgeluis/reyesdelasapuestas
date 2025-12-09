@@ -39,7 +39,6 @@ const Home = () => {
   const [topLiveCasino, setTopLiveCasino] = useState([]);
   const [categories, setCategories] = useState([]);
   const [tags, setTags] = useState([]);
-  const [mainCategories, setMainCategories] = useState([]);
   const [pageData, setPageData] = useState({});
   const [gameUrl, setGameUrl] = useState("");
   const [txtSearch, setTxtSearch] = useState("");
@@ -114,10 +113,6 @@ const Home = () => {
     } else {
       setCategories(result.data.categories);
       setPageData(result.data);
-
-      if (result.data.menu === "home") {
-        setMainCategories(result.data.categories);
-      }
 
       if (pageData.url && pageData.url !== null) {
         if (contextData.isMobile) {
@@ -328,7 +323,7 @@ const Home = () => {
           <Slideshow />
           <div className="home-columns">
             <TopSlideshow games={categories} name="provider" title="Proveedores" />
-            <TopSlideshow games={topCasino} name="casino" title="Casino" />
+            <TopSlideshow games={tags} name="casino" title="Casino" />
           </div>
           <ArcadeSlideshow games={topArcade} name="arcade" title="Top Juegos de crash" />
           <TopGames games={topGames} text={isLogin ? "Jugar" : "Ingresar"} title="Populares" link="/casino" onGameClick={(game) => {

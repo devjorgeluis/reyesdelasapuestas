@@ -1,4 +1,5 @@
 import { useContext, useRef, useState, useEffect } from 'react';
+import { useNavigate } from "react-router-dom";
 import { AppContext } from '../../AppContext';
 import LoadApi from '../Loading/LoadApi';
 
@@ -7,12 +8,13 @@ import { Navigation } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 
-const TopSlideshow = ({ games, name, title, onGameClick }) => {
+const TopSlideshow = ({ games, name, title }) => {
     const { contextData } = useContext(AppContext);
     const swiperRef = useRef(null);
     const [isBeginning, setIsBeginning] = useState(true);
     const [isEnd, setIsEnd] = useState(false);
     const [swiperReady, setSwiperReady] = useState(false);
+    const navigate = useNavigate();
 
     // Initialize navigation after component mounts
     useEffect(() => {
@@ -90,13 +92,17 @@ const TopSlideshow = ({ games, name, title, onGameClick }) => {
                             {games.map((game) => (
                                 <SwiperSlide key={game.id} className="swiper-slide">
                                     <a
-                                        onClick={() => onGameClick && onGameClick(game)}
                                         style={{ cursor: 'pointer' }}
+                                        onClick={name === "casino" ? () => navigate("/casino#" + game.code) : undefined}
                                     >
                                         <div>
-                                            <img
-                                                src={game.image_local != null && game.image_local !== "" ? contextData.cdnUrl + game.image_local : game.image_url}
-                                            />
+                                            {
+                                                name === "casino" ? 
+                                                    <img src={game.image} /> 
+                                                : <img
+                                                    src={game.image_local != null && game.image_local !== "" ? contextData.cdnUrl + game.image_local : game.image_url}
+                                                />
+                                            }
                                         </div>
                                         <div>{game.name}</div>
                                     </a>

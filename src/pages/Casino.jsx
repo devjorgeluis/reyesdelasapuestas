@@ -63,18 +63,26 @@ const Casino = () => {
 
   const pendingCategoryFetchesRef = useRef(0);
 
+  const isLoadingMainCategoriesRef = useRef(false);
+
   useEffect(() => {
-    if (!location.hash || tags.length === 0) return;
+    if (!location.hash || tags.length === 0) {
+      if (!location.hash && tags.length > 0) {
+        getPage("casino");
+      }
+      return;
+    }
+    
     const hashCode = location.hash.replace('#', '');
     const tagIndex = tags.findIndex(t => t.code === hashCode);
 
-    if (tagIndex !== -1 && selectedCategoryIndex !== tagIndex) {
+    if (tagIndex !== -1) {
       setSelectedCategoryIndex(tagIndex);
       setIsSingleCategoryView(false);
       setIsExplicitSingleCategoryView(false);
       getPage(hashCode);
     }
-  }, [location.hash]);
+  }, [location.hash, tags]);
 
   useEffect(() => {
     selectedGameId = null;
@@ -87,7 +95,11 @@ const Casino = () => {
     setActiveCategory({});
     setIsSingleCategoryView(false);
     setIsExplicitSingleCategoryView(false);
-    getPage("casino");
+    
+    if (!location.hash) {
+      getPage("casino");
+    }
+    
     window.scrollTo(0, 0);
   }, [location.pathname]);
 
@@ -112,6 +124,23 @@ const Casino = () => {
     setTags(tmpTags);
   }, [isSlotsOnly]);
 
+  useEffect(() => {
+    if (mainCategories.length === 0 && !isLoadingMainCategoriesRef.current) {
+      isLoadingMainCategoriesRef.current = true;
+      setTimeout(() => {
+        callApi(contextData, "GET", "/get-page?page=home", (result) => {
+          isLoadingMainCategoriesRef.current = false;
+          if (result.status !== 500 && result.status !== 422) {
+            if (result.data && result.data.categories && result.data.categories.length > 0) {
+              setMainCategories(result.data.categories);
+              setCategories(result.data.categories);
+            }
+          }
+        }, null);        
+      }, 1000);
+    }
+  }, []);
+
   const getPage = (page) => {
     setIsLoadingGames(true);
     setGames([]);
@@ -135,9 +164,11 @@ const Casino = () => {
 
       if (result.data && result.data.page_group_type === "categories" && result.data.categories && result.data.categories.length > 0) {
         setCategories(result.data.categories);
-        if (page === "casino") {
+
+        if (page === "casino" || page === "home") {
           setMainCategories(result.data.categories);
         }
+
         const firstCategory = result.data.categories[0];
         setActiveCategory(firstCategory);
 
@@ -153,7 +184,9 @@ const Casino = () => {
       } else if (result.data && result.data.page_group_type === "games") {
         setIsSingleCategoryView(true);
         setIsExplicitSingleCategoryView(false);
+
         setCategories(mainCategories.length > 0 ? mainCategories : []);
+
         configureImageSrc(result);
         setGames(result.data.categories || []);
         setActiveCategory(tags[tagIndex] || { name: page });
