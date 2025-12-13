@@ -6,7 +6,7 @@ import IconDeposit from "/src/assets/svg/deposit.svg";
 import IconHome from "/src/assets/svg/home.svg";
 import IconMenu from "/src/assets/svg/menu.svg";
 
-const Footer = ({ isLogin, isSlotsOnly, userBalance, handleLoginClick }) => {
+const Footer = ({ isLogin, isSlotsOnly, userBalance, handleLoginClick, supportParent, openSupportModal }) => {
     const navigate = useNavigate();
     const [showSideMenu, setShowSideMenu] = useState(false);
 
@@ -84,11 +84,14 @@ const Footer = ({ isLogin, isSlotsOnly, userBalance, handleLoginClick }) => {
                                     <path d="M6 9l6 6l6 -6"></path>
                                 </svg>
                             </div>
-                            <a href="#" onClick={() => navigate("/sports")} className="for_auth">APUESTAS DEPORTIVAS</a>
+                            <a href="#" onClick={() => { navigate("/sports"); setShowSideMenu(false); }} className="for_auth">APUESTAS DEPORTIVAS</a>
                             <div className="middle_seporator"></div>
-                            <a href="#" onClick={() => navigate("/live-sports")} className="for_auth">EN VIVO</a>
+                            <a href="#" onClick={() => { navigate("/live-sports"); setShowSideMenu(false); }} className="for_auth">EN VIVO</a>
                             <div className="middle_seporator"></div>
-                            <a href="#" onClick={() => navigate("/sports-history")} className="for_auth">Mis apuestas</a>
+                            <a href="#" onClick={() => { navigate("/sports-history"); setShowSideMenu(false); }} className="for_auth">Mis apuestas</a>
+                            {
+                                supportParent && <a href="#" onClick={() => { openSupportModal(true); setShowSideMenu(false); }} className="for_auth">Contactá a Tu Cajero</a>
+                            }
                             <a href="#" onClick={() => navigate("/casino")} className="header__link"><b><u>CASINO</u></b></a>
                             <a href="#" onClick={() => navigate("/live-casino")} className="header__link">Live-casino</a>
                             <div className="middle_seporator"></div>

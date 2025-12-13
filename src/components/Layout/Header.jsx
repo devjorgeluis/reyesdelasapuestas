@@ -1,12 +1,15 @@
 import { useNavigate, useLocation } from "react-router-dom";
 import ImgLogo from "/src/assets/img/logo.png";
+import ImgSupport from "/src/assets/svg/support-black.svg";
 
 const Header = ({
     isLogin,
     isMobile,
     isSlotsOnly,
     userBalance,
-    handleLoginClick
+    handleLoginClick,
+    supportParent,
+    openSupportModal
 }) => {
     const navigate = useNavigate();
     const location = useLocation();
@@ -42,6 +45,9 @@ const Header = ({
                 {
                     isLogin ? (
                         <>
+                            <button className="button-support" onClick={() => { openSupportModal(false); }}>
+                                <img src={ImgSupport} />
+                            </button>                        
                             <div className="header__balance">
                                 <div className="menu_balance">
                                     <div className="upd_symbol">$</div>
@@ -61,7 +67,12 @@ const Header = ({
                             </a>
                         </>
                     ) : (
-                        <button className="menu-button menu-button--auth" onClick={handleLoginClick}>Ingresar</button>
+                        <>
+                            <button className="button-support" onClick={() => { openSupportModal(false); }}>
+                                <img src={ImgSupport} />
+                            </button>
+                            <button className="menu-button menu-button--auth" onClick={handleLoginClick}>Ingresar</button>
+                        </>
                     )
                 }
             </div>
