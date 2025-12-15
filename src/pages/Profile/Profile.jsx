@@ -9,7 +9,7 @@ const Profile = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const { contextData } = useContext(AppContext);
-    const { isMobile } = useOutletContext();
+    const { isMobile, supportParent, openSupportModal } = useOutletContext();
     const { setShowFullDivLoading } = useContext(NavigationContext);
 
     useEffect(() => {
@@ -85,6 +85,20 @@ const Profile = () => {
                             </div>
                             <div className="menu__row--title">Historial financiero</div>
                         </a>
+
+                        {
+                            supportParent && <a
+                                href="#"
+                                className="menu__row"
+                                aria-current="page"
+                                onClick={() => openSupportModal(true)}
+                            >
+                                <div className="menu__row--icon">
+                                    <i className="material-icons">phone</i>
+                                </div>
+                                <div className="menu__row--title">Contactá a Tu Cajero</div>
+                            </a>
+                        }
 
                         <div className="menu__row logout" onClick={handleLogoutClick}>
                             <div className="menu__row--icon">

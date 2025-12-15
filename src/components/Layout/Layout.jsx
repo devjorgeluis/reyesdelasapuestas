@@ -198,7 +198,7 @@ const Layout = () => {
                         />
                         {/* <Sidebar isSlotsOnly={isSlotsOnly} isMobile={isMobile} /> */}
                         <main className="content">
-                            <Outlet context={{ isSlotsOnly, isMobile }} />
+                            <Outlet context={{ isSlotsOnly, isMobile, supportParent, openSupportModal }} />
                         </main>
                         {!isSportsPage && <Footer
                             isLogin={isLogin}

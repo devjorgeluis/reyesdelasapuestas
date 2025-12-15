@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, useOutletContext } from "react-router-dom";
 import { NavigationContext } from "../../components/Layout/NavigationContext";
 import { AppContext } from "../../AppContext";
 import { callApi } from "../../utils/Utils";
@@ -8,6 +8,7 @@ const ProfileHistory = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const { contextData } = useContext(AppContext);
+    const { supportParent, openSupportModal } = useOutletContext();
     const { setShowFullDivLoading } = useContext(NavigationContext);
 
     const [transactions, setTransactions] = useState([]);
@@ -204,6 +205,20 @@ const ProfileHistory = () => {
                             </div>
                             <div className="menu__row--title">Historial financiero</div>
                         </a>
+                        
+                        {
+                            supportParent && <a
+                                href="#"
+                                className="menu__row"
+                                aria-current="page"
+                                onClick={() => openSupportModal(true)}
+                            >
+                                <div className="menu__row--icon">
+                                    <i className="material-icons">phone</i>
+                                </div>
+                                <div className="menu__row--title">Contactá a Tu Cajero</div>
+                            </a>
+                        }                        
 
                         <div className="menu__row logout" onClick={handleLogoutClick}>
                             <div className="menu__row--icon">
