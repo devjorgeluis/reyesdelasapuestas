@@ -223,6 +223,7 @@ const Casino = () => {
         pageCurrent = 1;
       }
 
+      setShowFullDivLoading(false);
       setIsLoadingGames(false);
     }
   };
