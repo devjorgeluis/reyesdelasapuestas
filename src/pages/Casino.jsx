@@ -68,9 +68,10 @@ const Casino = () => {
     const handleVisibilityChange = () => {
       if (document.visibilityState === 'visible') {
         const currentPath = window.location.pathname;
-        if (currentPath === '/' || currentPath === '') {
-          getPage("casino");
-
+        
+        if (currentPath === '/casino' || currentPath.startsWith('/casino')) {
+          setShowFullDivLoading(true);
+          
           selectedGameId = null;
           selectedGameType = null;
           selectedGameLauncher = null;
@@ -81,6 +82,8 @@ const Casino = () => {
           setActiveCategory({});
           setIsSingleCategoryView(false);
           setIsExplicitSingleCategoryView(false);
+          
+          getPage("casino");
         }
       }
     };
@@ -89,7 +92,7 @@ const Casino = () => {
     return () => {
       document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
-  }, []);  
+  }, []);
 
   useEffect(() => {
     if (!location.hash || tags.length === 0) {
