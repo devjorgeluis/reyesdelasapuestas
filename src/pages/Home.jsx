@@ -55,8 +55,6 @@ const Home = () => {
       if (document.visibilityState === 'visible') {
         const currentPath = window.location.pathname;
         if (currentPath === '/' || currentPath === '') {
-          setShowFullDivLoading(true);
-
           getPage("home");
           getStatus();
 
