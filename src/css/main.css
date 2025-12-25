@@ -5038,7 +5038,7 @@ aside .side_menu_btns {
     right: 0;
     margin: 60px 0 0;
     border-radius: .4rem !important;
-    position: absolute;
+    position: fixed;
     top: 30px;
     left: 10vw;
 }
