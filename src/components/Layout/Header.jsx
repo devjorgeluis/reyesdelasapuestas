@@ -23,21 +23,21 @@ const Header = ({
     return (
         <div className="header">
             <div className={`header__content ${isMobile ? 'mobile' : 'desktop'}`}>
-                <a href="#" onClick={() => navigate("/home")} className="logo">
+                <a onClick={() => navigate("/")} className="logo">
                     <img src={ImgLogo} alt="" />
                 </a>
                 {
                     !isMobile && <>
-                        <a href="#" onClick={() => navigate("/home")} className={getLinkClass('/home')}>Inicio</a>
+                        <a onClick={() => navigate("/")} className={getLinkClass('/home')}>Inicio</a>
                         {isSlotsOnly === "false" &&
                             <>
-                                <a href="#" onClick={() => navigate("/sports")} className={getLinkClass('/sports')}>APUESTAS DEPORTIVAS</a>
-                                <a href="#" onClick={() => navigate("/live-sports")} className={getLinkClass('/live-sports')}>EN VIVO</a>
-                                <a href="#" onClick={() => navigate("/sports-history")} className={getLinkClass('/sports-history')}>Mis apuestas</a>
+                                <a onClick={() => navigate("/sports")} className={getLinkClass('/sports')}>APUESTAS DEPORTIVAS</a>
+                                <a onClick={() => navigate("/live-sports")} className={getLinkClass('/live-sports')}>EN VIVO</a>
+                                <a onClick={() => navigate("/sports-history")} className={getLinkClass('/sports-history')}>Mis apuestas</a>
                             </>
                         }
-                        <a href="#" onClick={() => navigate("/casino")} className={getLinkClass('/casino')}><b><u>CASINO</u></b></a>
-                        {isSlotsOnly === "false" && <a href="#" onClick={() => navigate("/live-casino")} className={getLinkClass('/live-casino')}>Live-casino</a>}
+                        <a onClick={() => navigate("/casino")} className={getLinkClass('/casino')}><b><u>CASINO</u></b></a>
+                        {isSlotsOnly === "false" && <a onClick={() => navigate("/live-casino")} className={getLinkClass('/live-casino')}>Live-casino</a>}
                     </>
                 }
 
